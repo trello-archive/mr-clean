@@ -29,7 +29,7 @@ task pluginVersion {
         versionFile.parentFile.mkdirs()
         versionFile.text = """
 // Generated file. Do not edit!
-package com.trello.mr_clean
+package com.trello.sanitize
 val VERSION = "${project.version}"
 """
     }
