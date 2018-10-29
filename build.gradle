@@ -1,6 +1,6 @@
 buildscript {
     ext.artifactGroup = 'com.trello'
-    ext.artifactVersion = '0.0.1'
+    ext.artifactVersion = '0.9.0'
     project.version = artifactVersion
 
     ext.versions = [
