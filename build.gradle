@@ -4,7 +4,7 @@ buildscript {
     project.version = artifactVersion
 
     ext.versions = [
-        'kotlin': '1.2.71'
+        'kotlin': '1.3.0'
     ]
 
     ext.deps = [
