@@ -1,0 +1,16 @@
+apply plugin: 'kotlin'
+
+group artifactGroup
+version artifactVersion
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile deps.kotlin.stdlib
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+

@@ -1,0 +1,22 @@
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+group artifactGroup
+version artifactVersion
+
+dependencies {
+    compileOnly project(':mr-clean-annotations')
+    compileOnly deps.autoService
+    kapt deps.autoService
+
+    compile deps.kotlin.annotationProcessing
+    compile deps.kotlin.compiler
+    compile deps.kotlin.stdlib
+
+    compile deps.kotlinx.metadataJvm
+
+    compile deps.kotlinpoet
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
