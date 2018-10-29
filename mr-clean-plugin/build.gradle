@@ -25,7 +25,7 @@ task pluginVersion {
     outputs.dir outputDir
 
     doLast {
-        def versionFile = file("$outputDir/com/trello/mr_clean/Version.kt")
+        def versionFile = file("$outputDir/com/trello/sanitize/Version.kt")
         versionFile.parentFile.mkdirs()
         versionFile.text = """
 // Generated file. Do not edit!
