@@ -16,5 +16,16 @@
 
 package com.trello.sanitize.annotations
 
+/**
+ * Annotate your class with [Sanitize] to generate a sanitized version of your toString for release builds.
+ *
+ * usage:
+ * ```
+ * @Sanitize
+ * data class SensitiveData(val creditCardNumber: String, val socialSecurityNumber: String) {
+ *   override toString() = sanitizedToString()
+ * }
+ * ```
+ */
 @Target(AnnotationTarget.CLASS)
 annotation class Sanitize
