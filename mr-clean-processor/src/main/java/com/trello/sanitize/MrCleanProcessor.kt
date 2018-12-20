@@ -24,8 +24,8 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.asTypeName
+import com.trello.identifier.annotation.PackageId
 import com.trello.sanitize.annotations.Sanitize
-import com.trello.sanitize.internal.PackageIdentifier
 import kotlinx.metadata.impl.extensions.MetadataExtensions
 import kotlinx.metadata.jvm.KotlinClassMetadata
 import java.io.File
@@ -51,7 +51,7 @@ class MrCleanProcessor : AbstractProcessor() {
   private var generatedDir: File? = null
 
   private val sanitize = Sanitize::class.java
-  private val packageIdentifier = PackageIdentifier::class.java
+  private val packageIdentifier = PackageId::class.java
 
   override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(
       sanitize.canonicalName,

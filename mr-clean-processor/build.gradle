@@ -16,6 +16,8 @@ dependencies {
     compile deps.kotlinx.metadataJvm
 
     compile deps.kotlinpoet
+
+    compile deps.packageIdentifierAnnotations
 }
 
 sourceCompatibility = "1.7"
