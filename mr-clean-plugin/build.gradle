@@ -1,0 +1,38 @@
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'kotlin'
+
+group artifactGroup
+version artifactVersion
+
+dependencies {
+    compileOnly gradleApi()
+    implementation project(':mr-clean-annotations')
+
+    implementation deps.android.gradlePlugin
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlinpoet
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+sourceSets.main.java.srcDir "$buildDir/generated/source/mr_clean"
+
+task pluginVersion {
+    def outputDir = file("$buildDir/generated/source/mr_clean/")
+
+    inputs.property 'version', version
+    outputs.dir outputDir
+
+    doLast {
+        def versionFile = file("$outputDir/com/trello/mr_clean/Version.kt")
+        versionFile.parentFile.mkdirs()
+        versionFile.text = """
+// Generated file. Do not edit!
+package com.trello.mr_clean
+val VERSION = "${project.version}"
+"""
+    }
+}
+
+tasks.getByName('compileKotlin').dependsOn('pluginVersion')
