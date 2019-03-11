@@ -20,3 +20,4 @@ dependencies {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+apply from: "$rootDir/gradle/gradle-mvn-push.gradle"
