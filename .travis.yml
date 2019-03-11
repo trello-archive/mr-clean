@@ -1,0 +1,18 @@
+language: java
+
+jdk:
+- oraclejdk8
+
+install: "./gradlew assemble"
+
+after_success: .buildscript/deploy_snapshot.sh
+
+branches:
+  except:
+    - gh-pages
+
+notifications:
+  email: false
+
+env:
+  global:
