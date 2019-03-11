@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.trello.sanitize
+package com.trello.mrclean
 
 import com.google.auto.service.AutoService
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -25,7 +25,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.asTypeName
 import com.trello.identifier.annotation.PackageId
-import com.trello.sanitize.annotations.Sanitize
+import com.trello.mrclean.annotations.Sanitize
 import kotlinx.metadata.impl.extensions.MetadataExtensions
 import kotlinx.metadata.jvm.KotlinClassMetadata
 import java.io.File

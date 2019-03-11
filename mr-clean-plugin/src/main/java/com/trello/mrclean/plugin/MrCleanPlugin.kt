@@ -1,4 +1,4 @@
-package com.trello.mr_clean.plugin
+package com.trello.mrclean.plugin
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
@@ -7,7 +7,7 @@ import com.android.build.gradle.FeaturePlugin
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.BaseVariant
-import com.trello.mr_clean.VERSION
+import com.trello.mrclean.VERSION
 import groovy.util.XmlSlurper
 import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
@@ -78,7 +78,7 @@ class MrCleanPlugin : Plugin<Project> {
         if (once.compareAndSet(false, true)) {
           val packageName = getPackageName(variant)
           val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
-          val outputDir = project.buildDir.resolve("generated/source/mr_clean/${variant.name}")
+          val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
           project.tasks.create(taskName, GenerateRootFunctions::class.java) {
             it.outputDir = outputDir
             it.packageName = packageName

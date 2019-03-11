@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.trello.sanitize.annotations
+package com.trello.mrclean.annotations
 
 /**
  * Annotate your class with [Sanitize] to generate a sanitized version of your toString for release builds.

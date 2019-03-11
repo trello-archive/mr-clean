@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.trello.sanitize
+package com.trello.mrclean
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterizedTypeName

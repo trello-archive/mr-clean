@@ -1,4 +1,4 @@
-package com.trello.mr_clean.plugin
+package com.trello.mrclean.plugin
 
 import org.junit.Test
 
