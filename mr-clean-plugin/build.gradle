@@ -1,9 +1,6 @@
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'kotlin'
 
-group artifactGroup
-version artifactVersion
-
 dependencies {
     compileOnly gradleApi()
     implementation project(':mr-clean-annotations')
@@ -13,8 +10,8 @@ dependencies {
     implementation deps.kotlinpoet
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 sourceSets.main.java.srcDir "$buildDir/generated/source/mr_clean"
 
