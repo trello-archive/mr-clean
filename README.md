@@ -107,6 +107,26 @@ inline fun SensitiveData.sanitizedToString(condition: Boolean): String = "Sensit
 
 Don't leak sensitive info ever again, trust in Mr. Clean.
 
+# Usage
+```groovy
+buildscript {
+  repositories {
+    mavenCentral()
+    google()
+   }
+  dependencies {
+    classpath 'com.trello.mrclean:mr-clean-plugin:0.9.0'
+  }
+}
+```
+
+and then apply to your modules
+```groovy
+apply plugin: 'com.trello.mrclean'
+
+```
+
+
 # Contributors
 
 Pull requests, issues and comments welcome. For pull requests:
