@@ -8,6 +8,8 @@ dependencies {
     implementation deps.android.gradlePlugin
     implementation deps.kotlin.stdlib
     implementation deps.kotlinpoet
+
+    testImplementation deps.junit
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8

@@ -14,6 +14,7 @@ buildscript {
             'compiler': "org.jetbrains.kotlin:kotlin-compiler-embeddable:${versions.kotlin}",
             'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
         ],
+        'junit': 'junit:junit:4.12',
         'kotlinx': [
             'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.4"
         ],

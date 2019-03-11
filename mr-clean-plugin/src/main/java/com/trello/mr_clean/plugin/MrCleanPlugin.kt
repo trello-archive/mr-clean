@@ -64,33 +64,22 @@ class MrCleanPlugin : Plugin<Project> {
 
   private fun configureSanitizationGeneration(project: Project, variants: DomainObjectSet<out BaseVariant>) {
     val implDeps = project.configurations.getByName("implementation").dependencies
-    implDeps.add(project.dependencies.create("com.trello:mr-clean-annotations:$VERSION"))
+    implDeps.add(project.dependencies.create("com.trello.mrclean:mr-clean-annotations:$VERSION"))
     val kaptDeps = project.configurations.getByName("kapt").dependencies
-    kaptDeps.add(project.dependencies.create("com.trello:mr-clean-processor:$VERSION"))
+    kaptDeps.add(project.dependencies.create("com.trello.mrclean:mr-clean-processor:$VERSION"))
     variants.all { variant ->
       val once = AtomicBoolean()
 
-      if (once.compareAndSet(false, true)) {
-        val packageName = getPackageName(variant)
-        val taskName = "generate${variant.name.capitalize()}PackageInfo"
-        val task = project.tasks.create(taskName)
-        val outputDir = project.buildDir.resolve("generated/source/mr_clean/${variant.name}")
-        task.outputs.dir(outputDir)
-        variant.registerJavaGeneratingTask(task, outputDir)
-        variant.addJavaSourceFoldersToModel(outputDir)
-        task.apply {
-          doLast {
-            val rootFunction = FunSpec.builder("sanitizedToString")
-                .receiver(Any::class)
-                .returns(String::class)
-                .addCode("error(%S)", "No function generated! Make sure to annotate with @Sanitize")
-                .build()
-
-            val rootFunctionFile = FileSpec.builder(packageName, "RootSanitizeFunction")
-                .addFunction(rootFunction)
-                .addComment("This is the root function that generated functions will overload")
-                .build()
-            rootFunctionFile.writeTo(outputDir)
+      variant.outputs.all { output ->
+        if (once.compareAndSet(false, true)) {
+          val packageName = getPackageName(variant)
+          val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
+          val outputDir = project.buildDir.resolve("generated/source/mr_clean/${variant.name}")
+          project.tasks.create(taskName, GenerateRootFunctions::class.java) {
+            it.outputDir = outputDir
+            it.packageName = packageName
+            variant.registerJavaGeneratingTask(it, outputDir)
+            variant.addJavaSourceFoldersToModel(outputDir)
           }
         }
       }
