@@ -19,7 +19,10 @@ buildscript {
             'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.4"
         ],
         'kotlinpoet': 'com.squareup:kotlinpoet:0.7.0',
-        'packageIdentifierAnnotations': "com.trello.identifier:package-identifier-annotations:0.0.1"
+        'packageIdentifier': [
+            'annotations': "com.trello.identifier:package-identifier-annotations:0.0.1",
+            'plugin': "com.trello.identifier:package-identifier:0.0.1"
+        ]
     ]
 
     repositories {

@@ -7,8 +7,6 @@ import com.android.build.gradle.FeaturePlugin
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.BaseVariant
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
 import com.trello.mr_clean.VERSION
 import groovy.util.XmlSlurper
 import org.gradle.api.DomainObjectSet
@@ -28,6 +26,10 @@ class MrCleanPlugin : Plugin<Project> {
   }
 
   override fun apply(project: Project) {
+    project.plugins.apply("kotlin-kapt")
+    project.allprojects.forEach {
+      it.repositories.maven { mavenRepo -> mavenRepo.setUrl("https://kotlin.bintray.com/kotlinx/") }
+    }
     project.plugins.all {
       when (it) {
         is FeaturePlugin -> {

@@ -14,7 +14,7 @@ dependencies {
 
     compile deps.kotlinpoet
 
-    compile deps.packageIdentifierAnnotations
+    compileOnly deps.packageIdentifier.annotations
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
