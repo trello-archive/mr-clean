@@ -93,8 +93,8 @@ internal class TypeNameKmTypeVisitor(flags: Flags,
     return TypeNameKmTypeVisitor(flags, getTypeParameter, useTypeAlias) {
       argumentList.add(
           when (variance) {
-            KmVariance.IN -> WildcardTypeName.supertypeOf(it)
-            KmVariance.OUT -> WildcardTypeName.subtypeOf(it)
+            KmVariance.IN -> WildcardTypeName.consumerOf(it)
+            KmVariance.OUT -> WildcardTypeName.producerOf(it)
             KmVariance.INVARIANT -> it
           }
       )
@@ -108,18 +108,18 @@ internal class TypeNameKmTypeVisitor(flags: Flags,
   override fun visitFlexibleTypeUpperBound(flags: Flags,
                                            typeFlexibilityId: String?): KmTypeVisitor? {
     return TypeNameKmTypeVisitor(flags, getTypeParameter, useTypeAlias) {
-      flexibleTypeUpperBound = WildcardTypeName.subtypeOf(it)
+      flexibleTypeUpperBound = WildcardTypeName.producerOf(it)
     }
   }
 
   override fun visitOuterType(flags: Flags): KmTypeVisitor? {
     return TypeNameKmTypeVisitor(flags, getTypeParameter, useTypeAlias) {
-      outerType = WildcardTypeName.supertypeOf(it)
+      outerType = WildcardTypeName.consumerOf(it)
     }
   }
 
   override fun visitStarProjection() {
-    argumentList.add(WildcardTypeName.subtypeOf(ANY))
+    argumentList.add(WildcardTypeName.producerOf(ANY))
   }
 
   override fun visitTypeAlias(name: kotlinx.metadata.ClassName) {

@@ -29,5 +29,5 @@ internal fun TypeName.rawType(): ClassName {
 }
 
 internal fun TypeName.asNullableIf(condition: Boolean): TypeName {
-  return if (condition) asNullable() else this
+  return if (condition) copy(nullable = true) else this
 }
