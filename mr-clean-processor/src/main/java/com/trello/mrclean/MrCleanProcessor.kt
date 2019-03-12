@@ -84,34 +84,7 @@ class MrCleanProcessor : AbstractProcessor() {
           }
         }
         .map {
-          val propertyString = it.properties.joinToString {
-            "${it.name} = \$${it.name}"
-          }
-
-          val sanitizedOutput = mapOf(
-              "className" to it.className,
-              "hexString" to Integer::class.java.asTypeName()
-          )
-          val suppressAnnotation = AnnotationSpec.builder(Suppress::class)
-              .addMember("%S", "NOTHING_TO_INLINE")
-              .build()
-          val block = CodeBlock.builder()
-              .addNamed("return \"%className:L@\${%hexString:T.toHexString(hashCode())}\"\n", sanitizedOutput)
-              .build()
-          FunSpec.builder("sanitizedToString")
-              .addAnnotation(suppressAnnotation)
-              .receiver(ClassName.bestGuess(it.name))
-              .addModifiers(KModifier.INLINE)
-              .returns(String::class)
-              .apply {
-                if (isDebug) {
-                  addStatement("return %S", "${it.className}($propertyString)")
-                }
-                else {
-                  addCode(block)
-                }
-              }
-              .build()
+          SanitizeGenerator.generateSanitizedToString(it, isDebug)
         }
 
     if (funs.isNotEmpty()) {
@@ -123,6 +96,7 @@ class MrCleanProcessor : AbstractProcessor() {
 
     return true
   }
+
 
   companion object {
     /**
