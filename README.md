@@ -88,11 +88,12 @@ Annotate your class with `@Sanitize` and delegate to the generated `sanitizedToS
 
 ```kotlin
 @Sanitize
-data class SensitiveData(val creditCardNumber: String, val socialSecurityNumber: String){
+data class SensitiveData(val creditCardNumber: String, val socialSecurityNumber: String) {
 	override toString() = sanitizedToString()
 }
 
 ```
+**Note**: You don't have to build to get this function! The Gradle plugin will generate a default `Any.sanitizedToString` for use in the IDE.
 
 Mr. Clean manages the implementation of the `toString` for you.
 
