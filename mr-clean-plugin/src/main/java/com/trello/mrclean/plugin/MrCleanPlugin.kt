@@ -79,12 +79,15 @@ class MrCleanPlugin : Plugin<Project> {
           val packageName = getPackageName(variant)
           val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
           val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
-          project.tasks.create(taskName, GenerateRootFunctions::class.java) {
-            it.outputDir = outputDir
-            it.packageName = packageName
-            variant.registerJavaGeneratingTask(it, outputDir)
-            variant.addJavaSourceFoldersToModel(outputDir)
-          }
+          val task = project.tasks
+              .create(taskName, GenerateRootFunctions::class.java) {
+                it.outputDir = outputDir
+                it.packageName = packageName
+                variant.registerJavaGeneratingTask(it, outputDir)
+                variant.addJavaSourceFoldersToModel(outputDir)
+              }
+
+          project.files().builtBy(task)
         }
       }
     }
