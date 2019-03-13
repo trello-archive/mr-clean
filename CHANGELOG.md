@@ -1,3 +1,8 @@
+# 0.9.3
+
+* Fixes code-gen in debug builds
+* Adds tests to verify code gen
+
 # 0.9.2
 
 * Registers the generation task for creating the root function on configure
