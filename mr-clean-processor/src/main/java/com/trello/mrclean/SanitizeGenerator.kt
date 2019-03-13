@@ -40,7 +40,6 @@ internal object SanitizeGenerator {
         .returns(String::class)
         .apply {
           if (isDebug) {
-//            addStatement("return %S", "${classData.className}($propertyString)")
             addCode(codeBlock)
           }
           else {
