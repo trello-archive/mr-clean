@@ -9,20 +9,9 @@ import com.squareup.kotlinpoet.asTypeName
 
 internal object SanitizeGenerator {
   fun generateSanitizedToString(classData: ClassData, isDebug: Boolean): FunSpec {
-    val codeBlock = CodeBlock.builder()
-        .add("return \"%L(", classData.className)
-        .apply {
-          classData.properties
-              .take(classData.properties.size-1)
-              .forEach {
-                add("${it.name} = $%L, ", it.name)
-              }
-          val lastProp = classData.properties.last()
-          add("${lastProp.name} = $%L", lastProp.name)
-        }
-        .add(")\"")
-        .build()
-
+    val debugString = classData.properties.joinToString {
+      "${it.name} = ${"$"}${it.name}"
+    }
     val sanitizedOutput = mapOf(
         "className" to classData.className,
         "hexString" to Integer::class.java.asTypeName()
@@ -40,7 +29,7 @@ internal object SanitizeGenerator {
         .returns(String::class)
         .apply {
           if (isDebug) {
-            addCode(codeBlock)
+            addStatement("return %P", "${classData.className}($debugString)")
           }
           else {
             addCode(block)
