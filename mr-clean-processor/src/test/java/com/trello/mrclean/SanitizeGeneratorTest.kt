@@ -76,6 +76,38 @@ class SanitizeGeneratorTest {
   )
 
   @Test
+  fun generateReleaseSanitizedToStringForLongClassHeader() {
+    val propertyData = listOf(
+        PropertyData(flagsOf(Flag.IS_PUBLIC), "one", INT),
+        PropertyData(flagsOf(Flag.IS_PUBLIC), "two", INT),
+        PropertyData(flagsOf(Flag.IS_PUBLIC), "three", INT),
+        PropertyData(flagsOf(Flag.IS_PUBLIC), "four", INT),
+        PropertyData(flagsOf(Flag.IS_PUBLIC), "five", INT),
+        PropertyData(flagsOf(Flag.IS_PUBLIC), "six", INT),
+        PropertyData(flagsOf(Flag.IS_PUBLIC), "seven", INT),
+        PropertyData(flagsOf(Flag.IS_PUBLIC), "eight", INT)
+    )
+
+    val classData = ClassData(EightParam::class.java.canonicalName, propertyData)
+    val expectedOuput = """
+      |package com.example
+
+      |import com.trello.mrclean.SanitizeGeneratorTest
+      |import java.lang.Integer
+      |import kotlin.String
+      |import kotlin.Suppress
+
+      |@Suppress("NOTHING_TO_INLINE")
+      |inline fun SanitizeGeneratorTest.EightParam.sanitizedToString(): String =
+      |        "EightParam@${"$"}{Integer.toHexString(hashCode())}"
+      |
+      """.trimMargin()
+    val output = buildFile(SanitizeGenerator.generateSanitizedToString(classData, false))
+
+    assertEquals(expectedOuput, output)
+  }
+
+  @Test
   fun generateDebugSanitizedToStringForLongClassHeader() {
     val propertyData = listOf(
         PropertyData(flagsOf(Flag.IS_PUBLIC), "one", INT),
