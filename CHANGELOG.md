@@ -1,3 +1,7 @@
+# 0.9.4
+* Uses %P for template generation in kotlinpoet
+* Updates tests to check for the generated file, not the funspec
+
 # 0.9.3
 
 * Fixes code-gen in debug builds

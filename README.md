@@ -116,7 +116,7 @@ buildscript {
     google()
    }
   dependencies {
-    classpath 'com.trello.mrclean:mr-clean-plugin:0.9.3'
+    classpath 'com.trello.mrclean:mr-clean-plugin:0.9.4'
   }
 }
 ```
