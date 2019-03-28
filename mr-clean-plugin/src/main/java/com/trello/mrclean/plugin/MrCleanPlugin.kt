@@ -69,7 +69,7 @@ class MrCleanPlugin : Plugin<Project> {
   private fun configureSanitizationGeneration(project: Project, variants: DomainObjectSet<out BaseVariant>) {
     val implDeps = project.configurations.getByName("implementation").dependencies
     implDeps.add(project.dependencies.create("com.trello.mrclean:mr-clean-annotations:$VERSION"))
-    val kaptDeps = project.configurations.getByName("kapt").dependencies
+    val kaptDeps = project.configurations.getByName("kaptRelease").dependencies
     kaptDeps.add(project.dependencies.create("com.trello.mrclean:mr-clean-processor:$VERSION"))
     variants.all { variant ->
       val once = AtomicBoolean()
@@ -83,6 +83,7 @@ class MrCleanPlugin : Plugin<Project> {
               .create(taskName, GenerateRootFunctions::class.java) {
                 it.outputDir = outputDir
                 it.packageName = packageName
+                it.isDebug = variant.buildType.isDebuggable
                 variant.registerJavaGeneratingTask(it, outputDir)
                 variant.addJavaSourceFoldersToModel(outputDir)
               }
