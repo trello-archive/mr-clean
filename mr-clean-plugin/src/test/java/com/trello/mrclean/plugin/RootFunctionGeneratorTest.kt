@@ -7,10 +7,10 @@ import org.junit.Assert.*
 class RootFunctionGeneratorTest {
 
   @Test
-  fun createProdRootFunction() {
+  fun createRootFunction() {
     val generator = RootFunctionGenerator()
     val output = StringBuilder()
-    generator.createProdRootFunction("com.example").writeTo(output)
+    generator.createRootFunction("com.example").writeTo(output)
 
     val expectedOutput = """
       |// This is the root function that generated functions will overload
@@ -21,25 +21,6 @@ class RootFunctionGeneratorTest {
 
       |internal fun Any.sanitizedToString(): String =
       |        error("No function generated! Make sure to annotate with @Sanitize")
-      |
-    """.trimMargin()
-    assertEquals(expectedOutput, output.toString())
-  }
-
-  @Test
-  fun createDebugRootFunction() {
-    val generator = RootFunctionGenerator()
-    val output = StringBuilder()
-    generator.createDebugRootFunction("com.example").writeTo(output)
-
-    val expectedOutput = """
-      |// This is the root function that generated functions will overload
-      |package com.example
-
-      |import kotlin.Any
-      |import kotlin.String
-
-      |internal fun Any.sanitizedToString(): String = toString()
       |
     """.trimMargin()
     assertEquals(expectedOutput, output.toString())
