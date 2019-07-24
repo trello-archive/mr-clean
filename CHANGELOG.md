@@ -1,4 +1,9 @@
+# 0.9.5
+
+* generate root function with `internal` modifier to rid ourselves of cross module woes
+
 # 0.9.4
+
 * Uses %P for template generation in kotlinpoet
 * Updates tests to check for the generated file, not the funspec
 
