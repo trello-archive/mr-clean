@@ -10,7 +10,7 @@ class RootFunctionGeneratorTest {
   fun createRootFunction() {
     val generator = RootFunctionGenerator()
     val output = StringBuilder()
-    generator.createRootFunction("com.example").writeTo(output)
+    generator.createRootFunction("com.example", false).writeTo(output)
 
     val expectedOutput = """
       |// This is the root function that generated functions will overload

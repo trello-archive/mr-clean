@@ -25,7 +25,11 @@ class MrCleanPlugin : Plugin<Project> {
     LoggerFactory.getLogger("Mr. Clean")
   }
 
+  private lateinit var extension: MrCleanExtension
+
   override fun apply(project: Project) {
+    extension = project.extensions.create("mrclean", MrCleanExtension::class.java)
+
     project.plugins.apply("kotlin-kapt")
     project.plugins.apply("com.trello.identifier")
 
@@ -70,7 +74,12 @@ class MrCleanPlugin : Plugin<Project> {
     val implDeps = project.configurations.getByName("implementation").dependencies
     implDeps.add(project.dependencies.create("com.trello.mrclean:mr-clean-annotations:$VERSION"))
     val kaptDeps = project.configurations.getByName("kapt").dependencies
-    kaptDeps.add(project.dependencies.create("com.trello.mrclean:mr-clean-processor:$VERSION"))
+    if (extension.useReflectInDebug) {
+      implDeps.add(project.dependencies.create("com.trello.mrclean:mr-clean-reflect:$VERSION"))
+    }
+    else {
+      kaptDeps.add(project.dependencies.create("com.trello.mrclean:mr-clean-processor:$VERSION"))
+    }
     variants.all { variant ->
       val once = AtomicBoolean()
 
@@ -83,6 +92,7 @@ class MrCleanPlugin : Plugin<Project> {
               .create(taskName, GenerateRootFunctions::class.java) {
                 it.outputDir = outputDir
                 it.packageName = packageName
+                it.useReflection = extension.useReflectInDebug
                 variant.registerJavaGeneratingTask(it, outputDir)
                 variant.addJavaSourceFoldersToModel(outputDir)
               }

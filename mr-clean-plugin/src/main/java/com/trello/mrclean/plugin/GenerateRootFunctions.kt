@@ -13,14 +13,17 @@ open class GenerateRootFunctions : DefaultTask() {
   @get:Input
   var packageName: String? = null
 
+  @get:Input
+  var useReflection: Boolean? = null
+
   @Suppress("unused") // Invoked by Gradle.
   @TaskAction
   fun brewJava() {
-    brewJava(outputDir!!, packageName!!)
+    brewJava(outputDir!!, packageName!!, useReflection!!)
   }
 }
 
-fun brewJava(outputDir: File, packageName: String) {
+fun brewJava(outputDir: File, packageName: String, useReflection: Boolean) {
   val compiler = RootFunctionGenerator()
-  compiler.createRootFunction(packageName).writeTo(outputDir)
+  compiler.createRootFunction(packageName, useReflection).writeTo(outputDir)
 }
