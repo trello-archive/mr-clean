@@ -97,8 +97,19 @@ data class SensitiveData(val creditCardNumber: String, val socialSecurityNumber:
 
 Mr. Clean manages the implementation of the `toString` for you.
 
+In debug builds, by default, Mr. Clean will utilize reflection to generate the toString on the fly.
+You can disable this behavior by adding this to your build.gradle
+
+```groovy
+mrclean {
+    useReflectInDebug = false
+}
+```
+
+By disabling reflection, you'll enable the annotation processor that generates code for you.
+
 ```kotlin
-// in a debuggable build
+// in a debuggable build with reflect disabled
 inline fun SensitiveData.sanitizedToString(condition: Boolean): String =
         "SensitiveData(creditCardNumber = $creditCardNumber, socialSecurityNumber = $socialSecurityNumber)"
 

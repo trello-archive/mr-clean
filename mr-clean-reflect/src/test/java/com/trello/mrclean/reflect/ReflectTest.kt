@@ -14,44 +14,44 @@ class ReflectTest {
 
   @Test
   fun testReflectOneStringParam() {
-    assertEquals("{ stringParam = Meow }", OneStringParam("Meow").sanitizedToString())
+    assertEquals("OneStringParam( stringParam = Meow )", OneStringParam("Meow").reflectedToString())
   }
 
   @Test
   fun testReflectOneIntParam() {
-    assertEquals("{ intParam = 1 }", OneIntParam(1).sanitizedToString())
+    assertEquals("OneIntParam( intParam = 1 )", OneIntParam(1).reflectedToString())
   }
 
   @Test
   fun testReflectOneBooleanParam() {
-    assertEquals("{ booleanParam = false }",
-        OneBooleanParam(false).sanitizedToString())
+    assertEquals("OneBooleanParam( booleanParam = false )",
+        OneBooleanParam(false).reflectedToString())
   }
 
   @Test
   fun testReflectTwoPrimitiveParam() {
-    assertEquals("{ intParam = 2, stringParam = Meow }",
-        TwoPrimitiveParams("Meow", 2).sanitizedToString())
+    assertEquals("TwoPrimitiveParams( intParam = 2, stringParam = Meow )",
+        TwoPrimitiveParams("Meow", 2).reflectedToString())
   }
 
   @Test
   fun testReflectTwoComplexParam() {
-    assertEquals("{ oneIntParam = OneIntParam(intParam=1), oneStringParam = OneStringParam(stringParam=Meow) }",
-        TwoComplexParams(OneStringParam("Meow"), OneIntParam(1)).sanitizedToString())
+    assertEquals("TwoComplexParams( oneIntParam = OneIntParam(intParam=1), oneStringParam = OneStringParam(stringParam=Meow) )",
+        TwoComplexParams(OneStringParam("Meow"), OneIntParam(1)).reflectedToString())
   }
 
   @Test
   fun testReflectThreeComplexParams() {
-    assertEquals("{ oneBooleanParam = OneBooleanParam(booleanParam=false), oneIntParam = OneIntParam(intParam=1), oneStringParam = OneStringParam(stringParam=Meow) }",
-        ThreeComplexParams(OneStringParam("Meow"), OneIntParam(1), OneBooleanParam(false)).sanitizedToString())
+    assertEquals("ThreeComplexParams( oneBooleanParam = OneBooleanParam(booleanParam=false), oneIntParam = OneIntParam(intParam=1), oneStringParam = OneStringParam(stringParam=Meow) )",
+        ThreeComplexParams(OneStringParam("Meow"), OneIntParam(1), OneBooleanParam(false)).reflectedToString())
   }
 
   @Test
   fun testReflectNestedComplexParams() {
-    assertEquals("{ threeComplexParams1 = ThreeComplexParams(oneStringParam=OneStringParam(stringParam=Meow), oneIntParam=OneIntParam(intParam=1), oneBooleanParam=OneBooleanParam(booleanParam=true)), threeComplexParams2 = ThreeComplexParams(oneStringParam=OneStringParam(stringParam=bark), oneIntParam=OneIntParam(intParam=2), oneBooleanParam=OneBooleanParam(booleanParam=false)) }",
+    assertEquals("NestedComplexParams( threeComplexParams1 = ThreeComplexParams(oneStringParam=OneStringParam(stringParam=Meow), oneIntParam=OneIntParam(intParam=1), oneBooleanParam=OneBooleanParam(booleanParam=true)), threeComplexParams2 = ThreeComplexParams(oneStringParam=OneStringParam(stringParam=bark), oneIntParam=OneIntParam(intParam=2), oneBooleanParam=OneBooleanParam(booleanParam=false)) )",
         NestedComplexParams(
             ThreeComplexParams(OneStringParam("Meow"), OneIntParam(1), OneBooleanParam(true)),
             ThreeComplexParams(OneStringParam("bark"), OneIntParam(2), OneBooleanParam(false))
-        ).sanitizedToString())
+        ).reflectedToString())
   }
 }
