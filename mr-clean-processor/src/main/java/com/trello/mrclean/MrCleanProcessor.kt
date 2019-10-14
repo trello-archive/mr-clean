@@ -97,7 +97,7 @@ class MrCleanProcessor : AbstractProcessor() {
 
     funs.map { (element, funSpec) ->
       val enclosingElementName = element.enclosingElement.simpleName.toString().capitalize()
-      FileSpec.builder(targetPackage, "SanitzationFor$enclosingElementName${element.simpleName}")
+      FileSpec.builder(targetPackage, "SanitizationFor$enclosingElementName${element.simpleName}")
           .apply {
             if (isDebug) addComment("Debug") else addComment("Release")
           }
