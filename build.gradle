@@ -1,5 +1,6 @@
 buildscript {
     ext.versions = [
+        'incap' : '0.2',
         'kotlin': '1.3.0'
     ]
 
@@ -15,11 +16,15 @@ buildscript {
             'reflect': "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
             'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
         ],
+        'incap': [
+            'runtime': "net.ltgt.gradle.incap:incap:${versions.incap}",
+            'processor': "net.ltgt.gradle.incap:incap-processor:${versions.incap}",
+        ],
         'junit': 'junit:junit:4.12',
         'kotlinx': [
             'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.4"
         ],
-        'kotlinpoet': 'com.squareup:kotlinpoet:1.0.0',
+        'kotlinpoet': 'com.squareup:kotlinpoet:1.2.0',
         'packageIdentifier': [
             'annotations': "com.trello.identifier:package-identifier-annotations:0.0.1",
             'plugin': "com.trello.identifier:package-identifier-plugin:0.0.2"

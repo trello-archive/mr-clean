@@ -6,6 +6,9 @@ dependencies {
     compileOnly deps.autoService
     kapt deps.autoService
 
+    api deps.incap.runtime
+    compileOnly deps.incap.processor
+
     compile deps.kotlin.annotationProcessing
     compile deps.kotlin.compiler
     compile deps.kotlin.stdlib
