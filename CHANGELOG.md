@@ -1,3 +1,7 @@
+# 1.0.0
+
+* support incremental annotation processing
+
 # 0.9.5
 
 * generate root function with `internal` modifier to rid ourselves of cross module woes
