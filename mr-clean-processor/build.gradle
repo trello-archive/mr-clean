@@ -9,8 +9,6 @@ dependencies {
     api deps.incap.runtime
     compileOnly deps.incap.processor
 
-    compile deps.kotlin.annotationProcessing
-    compile deps.kotlin.compiler
     compile deps.kotlin.stdlib
 
     compile deps.kotlinx.metadataJvm

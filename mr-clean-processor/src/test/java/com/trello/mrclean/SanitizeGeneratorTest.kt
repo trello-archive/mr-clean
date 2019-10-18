@@ -31,7 +31,7 @@ class SanitizeGeneratorTest {
 
       |@Suppress("NOTHING_TO_INLINE")
       |inline fun SanitizeGeneratorTest.TwoParam.sanitizedToString(): String =
-      |        ${"\""}${"\""}${"\""}TwoParam(bar = ${"$"}bar, meow = ${"$"}meow)${"\""}${"\""}${"\""}
+      |    ${"\""}${"\""}${"\""}TwoParam(bar = ${"$"}bar, meow = ${"$"}meow)${"\""}${"\""}${"\""}
       |
       """.trimMargin()
 
@@ -56,7 +56,7 @@ class SanitizeGeneratorTest {
 
       |@Suppress("NOTHING_TO_INLINE")
       |inline fun SanitizeGeneratorTest.TwoParam.sanitizedToString(): String =
-      |        "TwoParam@${"$"}{Integer.toHexString(hashCode())}"
+      |    "TwoParam@${"$"}{Integer.toHexString(hashCode())}"
       |
       """.trimMargin()
 
@@ -99,7 +99,7 @@ class SanitizeGeneratorTest {
 
       |@Suppress("NOTHING_TO_INLINE")
       |inline fun SanitizeGeneratorTest.EightParam.sanitizedToString(): String =
-      |        "EightParam@${"$"}{Integer.toHexString(hashCode())}"
+      |    "EightParam@${"$"}{Integer.toHexString(hashCode())}"
       |
       """.trimMargin()
     val output = buildFile(SanitizeGenerator.generateSanitizedToString(classData, false))
@@ -130,7 +130,7 @@ class SanitizeGeneratorTest {
 
       |@Suppress("NOTHING_TO_INLINE")
       |inline fun SanitizeGeneratorTest.EightParam.sanitizedToString(): String =
-      |        ${"\""}${"\""}${"\""}EightParam(one = ${"$"}one, two = ${"$"}two, three = ${"$"}three, four = ${"$"}four, five = ${"$"}five, six = ${"$"}six, seven = ${"$"}seven, eight = ${"$"}eight)${"\""}${"\""}${"\""}
+      |    ${"\""}${"\""}${"\""}EightParam(one = ${"$"}one, two = ${"$"}two, three = ${"$"}three, four = ${"$"}four, five = ${"$"}five, six = ${"$"}six, seven = ${"$"}seven, eight = ${"$"}eight)${"\""}${"\""}${"\""}
       |
       """.trimMargin()
     val output = buildFile(SanitizeGenerator.generateSanitizedToString(classData, true))
