@@ -1,3 +1,7 @@
+# 1.0.1
+
+* Actually support incremental annotation processing
+    
 # 1.0.0
 
 * support incremental annotation processing
