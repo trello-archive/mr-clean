@@ -20,7 +20,7 @@ class RootFunctionGeneratorTest {
       |import kotlin.String
 
       |internal fun Any.sanitizedToString(): String =
-      |        error("No function generated! Make sure to annotate with @Sanitize")
+      |    error("No function generated! Make sure to annotate with @Sanitize")
       |
     """.trimMargin()
     assertEquals(expectedOutput, output.toString())
