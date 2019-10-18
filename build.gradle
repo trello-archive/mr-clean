@@ -31,6 +31,7 @@ buildscript {
 
     repositories {
         mavenCentral()
+        jcenter()
     }
 
     dependencies {
@@ -42,6 +43,7 @@ buildscript {
             google()
             maven { url "https://kotlin.bintray.com/kotlinx/" }
             mavenCentral()
+            jcenter()
         }
 
         group = GROUP
