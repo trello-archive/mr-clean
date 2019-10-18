@@ -1,15 +1,15 @@
 buildscript {
     ext.versions = [
         'incap' : '0.2',
-        'kotlin': '1.3.0'
+        'kotlin': '1.3.50'
     ]
 
     ext.deps = [
         android: [
             'runtime': 'com.google.android:android:4.1.1.4',
-            'gradlePlugin': "com.android.tools.build:gradle:3.2.1",
+            'gradlePlugin': "com.android.tools.build:gradle:3.5.1",
         ],
-        'autoService':'com.google.auto.service:auto-service:1.0-rc4',
+        'autoService':'com.google.auto.service:auto-service:1.0-rc6',
         'kotlin': [
             'annotationProcessing': "org.jetbrains.kotlin:kotlin-annotation-processing-embeddable:${versions.kotlin}",
             'compiler': "org.jetbrains.kotlin:kotlin-compiler-embeddable:${versions.kotlin}",
@@ -22,11 +22,11 @@ buildscript {
         ],
         'junit': 'junit:junit:4.12',
         'kotlinx': [
-            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.4"
+            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.1.0"
         ],
-        'kotlinpoet': 'com.squareup:kotlinpoet:1.2.0',
+        'kotlinpoet': 'com.squareup:kotlinpoet:1.4.0',
         'packageIdentifier': [
-            'annotations': "com.trello.identifier:package-identifier-annotations:0.0.1",
+            'annotations': "com.trello.identifier:package-identifier-annotations:0.0.2",
             'plugin': "com.trello.identifier:package-identifier-plugin:0.0.2"
         ]
     ]
@@ -49,4 +49,9 @@ buildscript {
         group = GROUP
         version = VERSION_NAME
     }
+}
+
+
+plugins {
+    id "com.github.ben-manes.versions" version "0.27.0"
 }
