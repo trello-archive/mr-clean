@@ -11,8 +11,6 @@ buildscript {
         ],
         'autoService':'com.google.auto.service:auto-service:1.0-rc6',
         'kotlin': [
-            'annotationProcessing': "org.jetbrains.kotlin:kotlin-annotation-processing-embeddable:${versions.kotlin}",
-            'compiler': "org.jetbrains.kotlin:kotlin-compiler-embeddable:${versions.kotlin}",
             'reflect': "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
             'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
         ],
