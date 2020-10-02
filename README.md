@@ -106,7 +106,7 @@ inline fun SensitiveData.sanitizedToString(condition: Boolean): String =
 inline fun SensitiveData.sanitizedToString(condition: Boolean): String = "SensitiveData@${Integer.toHexString(hashCode())}"
 ```
 
-Don't leak sensitive info ever again, trust in Mr. Clean.
+Don't leak sensitive info ever again; trust in Mr. Clean.
 
 # Usage
 ```groovy
