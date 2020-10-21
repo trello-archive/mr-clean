@@ -102,8 +102,6 @@ class MrCleanProcessor : AbstractProcessor() {
             if (isDebug) addComment("Debug") else addComment("Release")
           }
           .addFunction(funSpec)
-          .addAnnotation(JvmMultifileClass::class.asClassName())
-          .addAnnotation(AnnotationSpec.builder(JvmName::class.asClassName()).addMember("name = \"Sanitizations\"").build())
           .build()
     }
         .forEach { it.writeTo(processingEnv.filer) }
