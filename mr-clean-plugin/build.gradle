@@ -9,8 +9,6 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.kotlinpoet
 
-    implementation deps.packageIdentifier.plugin
-
     testImplementation deps.junit
 }
 

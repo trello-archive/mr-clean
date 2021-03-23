@@ -15,8 +15,6 @@ dependencies {
 
     compile deps.kotlinpoet
 
-    compileOnly deps.packageIdentifier.annotations
-
     testCompile deps.junit
 }
 
