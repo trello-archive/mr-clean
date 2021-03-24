@@ -18,6 +18,7 @@ package com.trello.mrclean
 
 import com.google.auto.service.AutoService
 import com.squareup.kotlinpoet.FileSpec
+import com.trello.identifier.annotation.PackageId
 import com.trello.mrclean.annotations.Sanitize
 import kotlinx.metadata.impl.extensions.MetadataExtensions
 import kotlinx.metadata.jvm.KotlinClassMetadata
@@ -49,9 +50,11 @@ class MrCleanProcessor : AbstractProcessor() {
   private var packageName: String? = null
 
   private val sanitize = Sanitize::class.java
+  private val packageIdentifier = PackageId::class.java
 
   override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(
-      sanitize.canonicalName
+      sanitize.canonicalName,
+      packageIdentifier.canonicalName
   )
 
   override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()

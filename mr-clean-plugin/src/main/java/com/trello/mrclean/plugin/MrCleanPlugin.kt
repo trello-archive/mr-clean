@@ -27,6 +27,7 @@ class MrCleanPlugin : Plugin<Project> {
 
   override fun apply(project: Project) {
     project.plugins.apply("kotlin-kapt")
+    project.plugins.apply("com.trello.identifier")
 
     project.allprojects.forEach {
       it.repositories.maven { mavenRepo -> mavenRepo.setUrl("https://kotlin.bintray.com/kotlinx/") }
