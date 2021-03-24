@@ -17,7 +17,14 @@
 package com.trello.mrclean
 
 import com.google.auto.service.AutoService
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.asClassName
+import com.squareup.kotlinpoet.asTypeName
 import com.trello.identifier.annotation.PackageId
 import com.trello.mrclean.annotations.Sanitize
 import kotlinx.metadata.impl.extensions.MetadataExtensions
@@ -32,6 +39,7 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion
+import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
@@ -46,8 +54,6 @@ class MrCleanProcessor : AbstractProcessor() {
   private lateinit var typeUtils: Types
   private lateinit var filer: Filer
   private var generatedDir: File? = null
-  private var isDebug: Boolean = false
-  private var packageName: String? = null
 
   private val sanitize = Sanitize::class.java
   private val packageIdentifier = PackageId::class.java
@@ -59,12 +65,6 @@ class MrCleanProcessor : AbstractProcessor() {
 
   override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
 
-  override fun getSupportedOptions() = mutableSetOf(
-    OPTION_KAPT_GENERATED,
-    OPTION_DEBUG,
-    OPTION_PACKAGE_NAME
-  )
-
   override fun init(processingEnv: ProcessingEnvironment) {
     super.init(processingEnv)
     messager = processingEnv.messager
@@ -72,12 +72,13 @@ class MrCleanProcessor : AbstractProcessor() {
     typeUtils = processingEnv.typeUtils
     filer = processingEnv.filer
     generatedDir = processingEnv.options[OPTION_KAPT_GENERATED]?.let(::File)
-    // load properties applied by MrCleanPlugin
-    isDebug = processingEnv.options[OPTION_DEBUG] == "true"
-    packageName = processingEnv.options[OPTION_PACKAGE_NAME]!!
   }
 
   override fun process(annotations: MutableSet<out TypeElement>, roundEnv: RoundEnvironment): Boolean {
+    val packageIdentifierClass = roundEnv.getElementsAnnotatedWith(packageIdentifier).firstOrNull()
+        ?: return true
+    val isDebug = packageIdentifierClass.getAnnotation(packageIdentifier).isDebug
+    val targetPackage = elementUtils.getPackageOf(packageIdentifierClass).qualifiedName.toString()
     val funs = roundEnv.getElementsAnnotatedWith(sanitize)
         .map {
           val classHeader = it.getClassHeader()!!
@@ -96,7 +97,7 @@ class MrCleanProcessor : AbstractProcessor() {
 
     funs.map { (element, funSpec) ->
       val enclosingElementName = element.enclosingElement.simpleName.toString().capitalize()
-      FileSpec.builder(packageName!!, "SanitizationFor$enclosingElementName${element.simpleName}")
+      FileSpec.builder(targetPackage, "SanitizationFor$enclosingElementName${element.simpleName}")
           .apply {
             if (isDebug) addComment("Debug") else addComment("Release")
           }
@@ -114,16 +115,6 @@ class MrCleanProcessor : AbstractProcessor() {
      * Name of the processor option containing the path to the Kotlin generated src dir.
      */
     private const val OPTION_KAPT_GENERATED = "kapt.kotlin.generated"
-
-    /**
-     * Compiler options that get added by MrCleanPlugin
-     * mrclean.debug - whether the variant's build type is debuggable
-     * mrclean.packagename - the root package name for the project
-     *
-     * Changes here must be reflected in MrCleanPlugin.kt
-     */
-    private const val OPTION_DEBUG = "mrclean.debug"
-    private const val OPTION_PACKAGE_NAME = "mrclean.packagename"
 
     init {
       // https://youtrack.jetbrains.net/issue/KT-24881

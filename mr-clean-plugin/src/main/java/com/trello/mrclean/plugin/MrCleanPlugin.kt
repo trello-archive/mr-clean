@@ -74,13 +74,9 @@ class MrCleanPlugin : Plugin<Project> {
     variants.all { variant ->
       val once = AtomicBoolean()
 
-      // apply APT options for use in MrCleanProcessor
-      val packageName = getPackageName(variant)
-      variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.packagename"] = packageName
-      variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.debug"] = variant.buildType.isDebuggable.toString()
-
       variant.outputs.all { output ->
         if (once.compareAndSet(false, true)) {
+          val packageName = getPackageName(variant)
           val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
           val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
           val task = project.tasks
