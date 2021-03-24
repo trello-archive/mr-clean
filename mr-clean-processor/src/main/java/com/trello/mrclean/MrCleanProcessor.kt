@@ -71,7 +71,7 @@ class MrCleanProcessor : AbstractProcessor() {
     generatedDir = processingEnv.options[OPTION_KAPT_GENERATED]?.let(::File)
     // load properties applied by MrCleanPlugin
     isDebug = processingEnv.options[OPTION_DEBUG] == "true"
-    packageName = processingEnv.options[OPTION_PACKAGE_NAME]!!
+    packageName = processingEnv.options[OPTION_PACKAGE_NAME]
   }
 
   override fun process(annotations: MutableSet<out TypeElement>, roundEnv: RoundEnvironment): Boolean {
@@ -90,6 +90,11 @@ class MrCleanProcessor : AbstractProcessor() {
               .addOriginatingElement(element)
               .build()
         }
+
+    if (funs.isNotEmpty() && packageName == null) {
+      messager.printMessage(Diagnostic.Kind.ERROR, "PackageName is not available at processing time. You may be trying to annotate test classes, which is unsupported.")
+      return true
+    }
 
     funs.map { (element, funSpec) ->
       val enclosingElementName = element.enclosingElement.simpleName.toString().capitalize()
