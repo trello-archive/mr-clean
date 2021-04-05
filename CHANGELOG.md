@@ -1,3 +1,8 @@
+# 1.0.3
+
+* Actually _actually_ support incremental annotation processing
+* Drops usage of package-identifier plugin 
+
 # 1.0.1
 
 * Actually support incremental annotation processing
