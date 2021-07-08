@@ -33,12 +33,6 @@ class MrCleanPlugin : Plugin<Project> {
     }
     project.plugins.all {
       when (it) {
-        is FeaturePlugin -> {
-          project.extensions[FeatureExtension::class].run {
-            configureSanitizationGeneration(project, featureVariants)
-            configureSanitizationGeneration(project, libraryVariants)
-          }
-        }
         is LibraryPlugin -> {
           project.extensions[LibraryExtension::class].run {
             configureSanitizationGeneration(project, libraryVariants)
