@@ -1,3 +1,9 @@
+# 1.1.0
+* Updates Kotlin to 1.5.10
+* Updates android gradle plugin to 4.2.2
+* Updates metadata-jvm to 0.3.0
+* Updates kotlinpoet to 1.9.0
+
 # 1.0.3
 
 * Actually _actually_ support incremental annotation processing

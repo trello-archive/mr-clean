@@ -39,7 +39,7 @@ import javax.lang.model.element.ExecutableElement
 @Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
 internal fun Element.getClassHeader(): KotlinClassHeader? {
   return getAnnotation(Metadata::class.java)?.run {
-    KotlinClassHeader(kind, metadataVersion, bytecodeVersion, data1, data2, extraString, packageName, extraInt)
+    KotlinClassHeader(kind, metadataVersion, data1, data2, extraString, packageName, extraInt)
   }
 }
 

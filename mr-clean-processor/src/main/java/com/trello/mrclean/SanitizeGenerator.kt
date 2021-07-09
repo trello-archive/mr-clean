@@ -25,7 +25,7 @@ internal object SanitizeGenerator {
     return FunSpec.builder("sanitizedToString")
         .addAnnotation(suppressAnnotation)
         .receiver(ClassName.bestGuess(classData.name))
-        .addModifiers(KModifier.INLINE)
+        .addModifiers(KModifier.INLINE, KModifier.INTERNAL)
         .returns(String::class)
         .apply {
           if (isDebug) {

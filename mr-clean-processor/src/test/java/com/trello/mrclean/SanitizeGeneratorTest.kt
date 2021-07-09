@@ -30,7 +30,7 @@ class SanitizeGeneratorTest {
       |import kotlin.Suppress
 
       |@Suppress("NOTHING_TO_INLINE")
-      |inline fun SanitizeGeneratorTest.TwoParam.sanitizedToString(): String =
+      |internal inline fun SanitizeGeneratorTest.TwoParam.sanitizedToString(): String =
       |    ${"\""}${"\""}${"\""}TwoParam(bar = ${"$"}bar, meow = ${"$"}meow)${"\""}${"\""}${"\""}
       |
       """.trimMargin()
@@ -55,7 +55,7 @@ class SanitizeGeneratorTest {
       |import kotlin.Suppress
 
       |@Suppress("NOTHING_TO_INLINE")
-      |inline fun SanitizeGeneratorTest.TwoParam.sanitizedToString(): String =
+      |internal inline fun SanitizeGeneratorTest.TwoParam.sanitizedToString(): String =
       |    "TwoParam@${"$"}{Integer.toHexString(hashCode())}"
       |
       """.trimMargin()
@@ -98,7 +98,7 @@ class SanitizeGeneratorTest {
       |import kotlin.Suppress
 
       |@Suppress("NOTHING_TO_INLINE")
-      |inline fun SanitizeGeneratorTest.EightParam.sanitizedToString(): String =
+      |internal inline fun SanitizeGeneratorTest.EightParam.sanitizedToString(): String =
       |    "EightParam@${"$"}{Integer.toHexString(hashCode())}"
       |
       """.trimMargin()
@@ -129,7 +129,7 @@ class SanitizeGeneratorTest {
       |import kotlin.Suppress
 
       |@Suppress("NOTHING_TO_INLINE")
-      |inline fun SanitizeGeneratorTest.EightParam.sanitizedToString(): String =
+      |internal inline fun SanitizeGeneratorTest.EightParam.sanitizedToString(): String =
       |    ${"\""}${"\""}${"\""}EightParam(one = ${"$"}one, two = ${"$"}two, three = ${"$"}three, four = ${"$"}four, five = ${"$"}five, six = ${"$"}six, seven = ${"$"}seven, eight = ${"$"}eight)${"\""}${"\""}${"\""}
       |
       """.trimMargin()
