@@ -9,7 +9,7 @@ buildscript {
             'runtime': 'com.google.android:android:4.1.1.4',
             'gradlePlugin': "com.android.tools.build:gradle:4.2.2",
         ],
-        'autoService':'com.google.auto.service:auto-service:1.0-rc6',
+        'autoService':'com.google.auto.service:auto-service:1.0.1',
         'kotlin': [
             'reflect': "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
             'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
