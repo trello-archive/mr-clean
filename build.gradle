@@ -18,7 +18,7 @@ buildscript {
             'runtime': "net.ltgt.gradle.incap:incap:${versions.incap}",
             'processor': "net.ltgt.gradle.incap:incap-processor:${versions.incap}",
         ],
-        'junit': 'junit:junit:4.12',
+        'junit': 'junit:junit:4.13.2',
         'kotlinx': [
             'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.3.0"
         ],
