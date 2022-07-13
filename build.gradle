@@ -20,7 +20,7 @@ buildscript {
         ],
         'junit': 'junit:junit:4.13.2',
         'kotlinx': [
-            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.3.0"
+            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
         ],
         'kotlinpoet': 'com.squareup:kotlinpoet:1.12.0'
     ]
