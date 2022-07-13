@@ -1,7 +1,7 @@
 buildscript {
     ext.versions = [
         'incap' : '0.3',
-        'kotlin': '1.5.10'
+        'kotlin': '1.7.10'
     ]
 
     ext.deps = [
