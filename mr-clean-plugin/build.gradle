@@ -16,24 +16,24 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 sourceSets.main.java.srcDir "$buildDir/generated/source/mrclean"
-//
-//task pluginVersion {
-//    def outputDir = file("$buildDir/generated/source/mrclean/")
-//
-//    inputs.property 'version', version
-//    outputs.dir outputDir
-//
-//    doLast {
-//        def versionFile = file("$outputDir/com/trello/mrclean/Version.kt")
-//        versionFile.parentFile.mkdirs()
-//        versionFile.text = """
-//// Generated file. Do not edit!
-//package com.trello.mrclean
-//val VERSION = "${project.version}"
-//"""
-//    }
-//}
-//
-//tasks.getByName('compileKotlin').dependsOn('pluginVersion')
+
+task pluginVersion {
+    def outputDir = file("$buildDir/generated/source/mrclean/")
+
+    inputs.property 'version', version
+    outputs.dir outputDir
+
+    doLast {
+        def versionFile = file("$outputDir/com/trello/mrclean/Version.kt")
+        versionFile.parentFile.mkdirs()
+        versionFile.text = """
+// Generated file. Do not edit!
+package com.trello.mrclean
+val VERSION = "${project.version}"
+"""
+    }
+}
+
+tasks.getByName('compileKotlin').dependsOn('pluginVersion')
 
 apply from: file("$rootDir/gradle/gradle-mvn-push.gradle")
