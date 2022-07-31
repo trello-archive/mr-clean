@@ -1,19 +1,17 @@
 package com.trello.mrclean.plugin
 
+import android.databinding.tool.ext.capitalizeUS
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
-import com.android.build.gradle.FeatureExtension
-import com.android.build.gradle.FeaturePlugin
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.BaseVariant
 import com.trello.mrclean.VERSION
-import groovy.util.XmlSlurper
+import groovy.xml.XmlSlurper
 import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
-import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.reflect.KClass
 
@@ -21,9 +19,6 @@ import kotlin.reflect.KClass
  * Based on butterknife's multi-module gradle plugin
  */
 class MrCleanPlugin : Plugin<Project> {
-  private val log by lazy {
-    LoggerFactory.getLogger("Mr. Clean")
-  }
 
   override fun apply(project: Project) {
     project.plugins.apply("kotlin-kapt")
@@ -72,9 +67,9 @@ class MrCleanPlugin : Plugin<Project> {
       variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.packagename"] = packageName
       variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.debug"] = variant.buildType.isDebuggable.toString()
 
-      variant.outputs.all { output ->
+      variant.outputs.all { _ ->
         if (once.compareAndSet(false, true)) {
-          val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
+          val taskName = "generate${variant.name.capitalizeUS()}RootSanitizeFunction"
           val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
           val task = project.tasks
               .create(taskName, GenerateRootFunctions::class.java) {
@@ -92,5 +87,5 @@ class MrCleanPlugin : Plugin<Project> {
 }
 
 private operator fun <T : Any> ExtensionContainer.get(type: KClass<T>): T {
-  return getByType(type.java)!!
+  return getByType(type.java)
 }
