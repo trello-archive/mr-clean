@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-//apply plugin: 'maven-publish'
-//apply plugin: 'signing'
-//
-//version = VERSION_NAME
-//group = GROUP
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+version = VERSION_NAME
+group = GROUP
 
 //static def isReleaseBuild() {
 //    return !VERSION_NAME.contains("SNAPSHOT")
