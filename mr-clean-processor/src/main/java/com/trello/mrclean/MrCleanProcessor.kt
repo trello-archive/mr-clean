@@ -81,7 +81,7 @@ class MrCleanProcessor : AbstractProcessor() {
           val metadata = classHeader.readKotlinClassMetadata()
           it to when (metadata) {
             is KotlinClassMetadata.Class -> metadata.readClassData()
-            else -> error("not a class")
+            else -> error("not a class: $metadata")
           }
         }
         .map { (element, classData) ->
