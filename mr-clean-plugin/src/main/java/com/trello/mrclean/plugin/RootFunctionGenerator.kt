@@ -14,7 +14,7 @@ class RootFunctionGenerator {
         .build()
     return FileSpec.builder(packageName, "RootSanitizeFunction")
         .addFunction(rootFunction)
-        .addComment("This is the root function that generated functions will overload")
+        .addFileComment("This is the root function that generated functions will overload")
         .build()
   }
 }
