@@ -20,150 +20,51 @@ apply plugin: 'signing'
 version = VERSION_NAME
 group = GROUP
 
-//static def isReleaseBuild() {
-//    return !VERSION_NAME.contains("SNAPSHOT")
-//}
-//
-//def getReleaseRepositoryUrl() {
-//    return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL :
-//            "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-//}
-//
-//def getSnapshotRepositoryUrl() {
-//    return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL :
-//            "https://oss.sonatype.org/content/repositories/snapshots/"
-//}
-//
-//def getRepositoryUsername() {
-//    return hasProperty('SONATYPE_NEXUS_USERNAME') ? SONATYPE_NEXUS_USERNAME : ""
-//}
-//
-//def getRepositoryPassword() {
-//    return hasProperty('SONATYPE_NEXUS_PASSWORD') ? SONATYPE_NEXUS_PASSWORD : ""
-//}
+def isReleaseBuild() {
+    return !VERSION_NAME.contains("SNAPSHOT")
+}
 
-//def configurePom(pom) {
-//    pom.groupId = GROUP
-//    pom.artifactId = POM_ARTIFACT_ID
-//    pom.version = VERSION_NAME
-//
-//    pom.project {
-//        name POM_NAME
-//        packaging POM_PACKAGING
-//        description POM_DESCRIPTION
-//        url POM_URL
-//
-//        scm {
-//            url POM_SCM_URL
-//            connection POM_SCM_CONNECTION
-//            developerConnection POM_SCM_DEV_CONNECTION
-//        }
-//
-//        licenses {
-//            license {
-//                name POM_LICENCE_NAME
-//                url POM_LICENCE_URL
-//                distribution POM_LICENCE_DIST
-//            }
-//        }
-//
-//        developers {
-//            developer {
-//                id POM_DEVELOPER_ID
-//                name POM_DEVELOPER_NAME
-//            }
-//        }
-//    }
-//}
-//
-//afterEvaluate { project ->
-//    uploadArchives {
-//        repositories {
-//            mavenDeployer {
-//                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-//
-//                repository(url: getReleaseRepositoryUrl()) {
-//                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-//                }
-//                snapshotRepository(url: getSnapshotRepositoryUrl()) {
-//                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-//                }
-//
-//                configurePom(pom)
-//            }
-//        }
-//    }
-//
-//    tasks.create("installLocally", Upload) {
-//        configuration = configurations.archives
-//
-//        repositories {
-//            mavenDeployer {
-//                repository(url: "file://${rootProject.buildDir}/localMaven")
-//
-//                configurePom(pom)
-//            }
-//        }
-//    }
-//
-//    signing {
-//        required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-//        sign configurations.archives
-//    }
-//
-//    if (project.getPlugins().hasPlugin('com.android.application') ||
-//            project.getPlugins().hasPlugin('com.android.library')) {
-//        task install(type: Upload, dependsOn: assemble) {
-//            repositories.mavenInstaller {
-//                configuration = configurations.archives
-//
-//                configurePom(pom)
-//            }
-//        }
-//
-//        task androidJavadocsJar(type: Jar) {
-//            classifier = 'javadoc'
-//            from "$buildDir/dokkaJavadoc"
-//        }
-//
-//        task androidSourcesJar(type: Jar) {
-//            classifier = 'sources'
-//            from android.sourceSets.main.java.source
-//        }
-//    } else {
-//        install {
-//            repositories.mavenInstaller {
-//                configurePom(pom)
-//            }
-//        }
-//
-//        task sourcesJar(type: Jar, dependsOn: classes) {
-//            classifier = 'sources'
-//            from sourceSets.main.allSource
-//        }
-//
-//        task javadocJar(type: Jar, dependsOn: javadoc) {
-//            classifier = 'javadoc'
-//            from javadoc.destinationDir
-//        }
-//    }
-//
-//    if (JavaVersion.current().isJava8Compatible()) {
-//        allprojects {
-//            tasks.withType(Javadoc) {
-//                options.addStringOption('Xdoclint:none', '-quiet')
-//            }
-//        }
-//    }
-//
-//    artifacts {
-//        if (project.getPlugins().hasPlugin('com.android.application') ||
-//                project.getPlugins().hasPlugin('com.android.library')) {
-//            archives androidSourcesJar
-//            archives androidJavadocsJar
-//        } else {
-//            archives sourcesJar
-//            archives javadocJar
-//        }
-//    }
-//}
+def getReleaseRepositoryUrl() {
+    return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL :
+            "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
+
+def getSnapshotRepositoryUrl() {
+    return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL :
+            "https://oss.sonatype.org/content/repositories/snapshots/"
+}
+
+def getRepositoryUsername() {
+    return hasProperty('SONATYPE_NEXUS_USERNAME') ? SONATYPE_NEXUS_USERNAME : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('SONATYPE_NEXUS_PASSWORD') ? SONATYPE_NEXUS_PASSWORD : ""
+}
+
+publishing {
+    repositories {
+        maven {
+            credentials {
+                username = getRepositoryUsername()
+                password = getRepositoryPassword()
+            }
+            def isSnapshot = version.contains('SNAPSHOT')
+            def releasesRepoUrl = getReleaseRepositoryUrl()
+            def snapshotsRepoUrl = getSnapshotRepositoryUrl()
+            url = isSnapshot ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
+signing {
+    required { isReleaseBuild() && gradle.taskGraph.hasTask("publish") }
+    sign configurations.archives
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+    source = "$buildDir/dokkaJavadoc"
+}

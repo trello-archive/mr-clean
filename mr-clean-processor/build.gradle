@@ -22,3 +22,4 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 apply from: file("$rootDir/gradle/gradle-mvn-push.gradle")
+apply plugin: "com.vanniktech.maven.publish"

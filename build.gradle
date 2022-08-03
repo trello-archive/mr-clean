@@ -40,42 +40,6 @@ buildscript {
             mavenCentral()
             maven { url "https://kotlin.bintray.com/kotlinx/" }
         }
-
-        plugins.withId("com.vannitech.maven.publish.base") {
-            group = GROUP
-            version = VERSION_NAME
-
-            mavenPublishing {
-                publishToMavenCentral("DEFAULT")
-
-                signAllPublications()
-
-                pom {
-                    name = POM_NAME
-                    description = POM_DESCRIPTION
-                    packaging = POM_PACKAGING
-                    inceptionYear = POM_INCEPTION_YEAR
-                    url = POM_URL
-                    licenses {
-                        license {
-                            name = POM_LICENSE_NAME
-                            url = POM_LICENCE_URL
-                            distribution = POM_LICENCE_DIST
-                        }
-                    }
-                    developers {
-                        id = POM_DEVELOPER_ID
-                        name = POM_DEVELOPER_NAME
-                        url = POM_DEVELOPER_URL
-                    }
-                    scm {
-                        url = POM_SCM_URL
-                        connection = POM_SCM_CONNECTION
-                        developerConnection = POM_SCM_DEV_CONNECTION
-                    }
-                }
-            }
-        }
     }
 }
 

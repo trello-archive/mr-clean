@@ -37,3 +37,4 @@ val VERSION = "${project.version}"
 tasks.getByName('compileKotlin').dependsOn('pluginVersion')
 
 apply from: file("$rootDir/gradle/gradle-mvn-push.gradle")
+apply plugin: "com.vanniktech.maven.publish"
