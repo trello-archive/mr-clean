@@ -1,3 +1,13 @@
+# 1.2.0
+* Updates Kotlin to 1.7.10
+* Updates ben-manes versions plugin to 0.42.0
+* Updates google auto service to 1.0.1
+* Updates kotlinpoet to 1.12.0
+* Updates junit to 4.13.2
+* Updates metadata-jvm to 0.5.0
+* Removes JCenter
+* Updates deprecated methods
+
 # 1.1.0
 * Updates Kotlin to 1.5.10
 * Updates android gradle plugin to 4.2.2
