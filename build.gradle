@@ -1,7 +1,7 @@
 buildscript {
     ext.versions = [
         'incap' : '0.3',
-        'kotlin': '1.5.10'
+        'kotlin': '1.7.10'
     ]
 
     ext.deps = [
@@ -9,7 +9,7 @@ buildscript {
             'runtime': 'com.google.android:android:4.1.1.4',
             'gradlePlugin': "com.android.tools.build:gradle:4.2.2",
         ],
-        'autoService':'com.google.auto.service:auto-service:1.0-rc6',
+        'autoService':'com.google.auto.service:auto-service:1.0.1',
         'kotlin': [
             'reflect': "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
             'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
@@ -18,16 +18,15 @@ buildscript {
             'runtime': "net.ltgt.gradle.incap:incap:${versions.incap}",
             'processor': "net.ltgt.gradle.incap:incap-processor:${versions.incap}",
         ],
-        'junit': 'junit:junit:4.12',
+        'junit': 'junit:junit:4.13.2',
         'kotlinx': [
-            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.3.0"
+            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
         ],
-        'kotlinpoet': 'com.squareup:kotlinpoet:1.9.0'
+        'kotlinpoet': 'com.squareup:kotlinpoet:1.12.0'
     ]
 
     repositories {
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
@@ -37,7 +36,6 @@ buildscript {
     allprojects {
         repositories {
             google()
-            maven { url "https://kotlin.bintray.com/kotlinx/" }
             mavenCentral()
             jcenter()
         }
@@ -49,5 +47,5 @@ buildscript {
 
 
 plugins {
-    id "com.github.ben-manes.versions" version "0.27.0"
+    id "com.github.ben-manes.versions" version "0.42.0"
 }

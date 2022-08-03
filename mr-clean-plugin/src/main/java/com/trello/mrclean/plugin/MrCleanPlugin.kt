@@ -2,8 +2,6 @@ package com.trello.mrclean.plugin
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
-import com.android.build.gradle.FeatureExtension
-import com.android.build.gradle.FeaturePlugin
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.BaseVariant
@@ -28,9 +26,6 @@ class MrCleanPlugin : Plugin<Project> {
   override fun apply(project: Project) {
     project.plugins.apply("kotlin-kapt")
 
-    project.allprojects.forEach {
-      it.repositories.maven { mavenRepo -> mavenRepo.setUrl("https://kotlin.bintray.com/kotlinx/") }
-    }
     project.plugins.all {
       when (it) {
         is LibraryPlugin -> {
@@ -72,7 +67,7 @@ class MrCleanPlugin : Plugin<Project> {
       variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.packagename"] = packageName
       variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.debug"] = variant.buildType.isDebuggable.toString()
 
-      variant.outputs.all { output ->
+      variant.outputs.all { _ ->
         if (once.compareAndSet(false, true)) {
           val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
           val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
@@ -92,5 +87,5 @@ class MrCleanPlugin : Plugin<Project> {
 }
 
 private operator fun <T : Any> ExtensionContainer.get(type: KClass<T>): T {
-  return getByType(type.java)!!
+  return getByType(type.java)
 }

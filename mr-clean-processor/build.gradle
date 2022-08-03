@@ -9,13 +9,13 @@ dependencies {
     api deps.incap.runtime
     compileOnly deps.incap.processor
 
-    compile deps.kotlin.stdlib
+    implementation deps.kotlin.stdlib
 
-    compile deps.kotlinx.metadataJvm
+    implementation deps.kotlinx.metadataJvm
 
-    compile deps.kotlinpoet
+    implementation deps.kotlinpoet
 
-    testCompile deps.junit
+    testImplementation deps.junit
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8

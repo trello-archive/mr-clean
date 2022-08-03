@@ -5,7 +5,7 @@ repositories {
 }
 
 dependencies {
-    compile deps.kotlin.stdlib
+    implementation deps.kotlin.stdlib
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
