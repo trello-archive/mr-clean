@@ -24,6 +24,7 @@ import kotlinx.metadata.jvm.KotlinClassMetadata
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
 import java.io.File
+import java.util.*
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.Filer
 import javax.annotation.processing.Messager
@@ -97,7 +98,8 @@ class MrCleanProcessor : AbstractProcessor() {
     }
 
     funs.map { (element, funSpec) ->
-      val enclosingElementName = element.enclosingElement.simpleName.toString().capitalize()
+      val enclosingElementName = element.enclosingElement.simpleName.toString()
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.US) else it.toString() }
       FileSpec.builder(packageName!!, "SanitizationFor$enclosingElementName${element.simpleName}")
           .apply {
             if (isDebug) addFileComment("Debug") else addFileComment("Release")
