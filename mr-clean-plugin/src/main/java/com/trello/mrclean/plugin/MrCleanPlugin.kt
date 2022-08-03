@@ -25,7 +25,7 @@ class MrCleanPlugin : Plugin<Project> {
 
   override fun apply(project: Project) {
     project.plugins.apply("kotlin-kapt")
-    
+
     project.plugins.all {
       when (it) {
         is LibraryPlugin -> {
@@ -67,7 +67,7 @@ class MrCleanPlugin : Plugin<Project> {
       variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.packagename"] = packageName
       variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.debug"] = variant.buildType.isDebuggable.toString()
 
-      variant.outputs.all { output ->
+      variant.outputs.all { _ ->
         if (once.compareAndSet(false, true)) {
           val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
           val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
@@ -87,5 +87,5 @@ class MrCleanPlugin : Plugin<Project> {
 }
 
 private operator fun <T : Any> ExtensionContainer.get(type: KClass<T>): T {
-  return getByType(type.java)!!
+  return getByType(type.java)
 }
