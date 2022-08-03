@@ -25,10 +25,7 @@ class MrCleanPlugin : Plugin<Project> {
 
   override fun apply(project: Project) {
     project.plugins.apply("kotlin-kapt")
-
-    project.allprojects.forEach {
-      it.repositories.maven { mavenRepo -> mavenRepo.setUrl("https://kotlin.bintray.com/kotlinx/") }
-    }
+    
     project.plugins.all {
       when (it) {
         is LibraryPlugin -> {
