@@ -11,7 +11,7 @@ Releasing
  8. Update the `gradle.properties` to the next SNAPSHOT version.
  9. `git commit -am "Prepare next development version."`
  10. `git push && git push --tags`
- 11. Update the sample app to the release version and send a PR.
+ 11. Open a PR.
 
 
 Prerequisites
