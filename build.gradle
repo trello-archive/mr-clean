@@ -7,7 +7,7 @@ buildscript {
     ext.deps = [
         android: [
             'runtime': 'com.google.android:android:4.1.1.4',
-            'gradlePlugin': "com.android.tools.build:gradle:4.2.2",
+            'gradlePlugin': "com.android.tools.build:gradle:7.3.1",
         ],
         'autoService':'com.google.auto.service:auto-service:1.0.1',
         'kotlin': [
@@ -31,6 +31,7 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+        classpath "com.vanniktech:gradle-maven-publish-plugin:0.18.0"
     }
 
     allprojects {
