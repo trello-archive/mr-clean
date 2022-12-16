@@ -5,7 +5,6 @@ repositories {
 }
 
 dependencies {
-    println("POM_INCEPTION_YEAR $POM_INCEPTION_YEAR")
     implementation deps.kotlin.stdlib
 }
 

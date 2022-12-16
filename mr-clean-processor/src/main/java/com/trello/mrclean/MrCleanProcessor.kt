@@ -92,7 +92,7 @@ class MrCleanProcessor : AbstractProcessor() {
         }
 
     if (funs.isNotEmpty() && packageName == null) {
-      messager.printMessage(Diagnostic.Kind.ERROR, "PackageName is not available at processing time. You may be trying to annotate test classes, which is unsupported.")
+      messager.printMessage(Diagnostic.Kind.ERROR, "MrClean: PackageName is not available at processing time. You may be trying to annotate test classes, which is unsupported.")
       return true
     }
 
