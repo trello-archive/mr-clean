@@ -25,11 +25,8 @@ import com.squareup.kotlinpoet.WildcardTypeName
 import kotlinx.metadata.Flag
 import kotlinx.metadata.Flags
 import kotlinx.metadata.KmClassVisitor
-import kotlinx.metadata.KmConstructorVisitor
 import kotlinx.metadata.KmPropertyVisitor
-import kotlinx.metadata.KmTypeParameterVisitor
 import kotlinx.metadata.KmTypeVisitor
-import kotlinx.metadata.KmValueParameterVisitor
 import kotlinx.metadata.KmVariance
 import kotlinx.metadata.jvm.KotlinClassHeader
 import kotlinx.metadata.jvm.KotlinClassMetadata
@@ -222,5 +219,7 @@ internal data class ParameterData(
 internal data class PropertyData(
     val flags: Flags,
     val name: String,
-    val type: TypeName
-)
+    val type: TypeName,
+) {
+    fun isPublic() = Flag.IS_PUBLIC.invoke(flags)
+}

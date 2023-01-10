@@ -10,7 +10,7 @@ import com.squareup.kotlinpoet.asTypeName
 internal object SanitizeGenerator {
   fun generateSanitizedToString(classData: ClassData, isDebug: Boolean): FunSpec {
     val debugString = classData.properties.joinToString {
-      "${it.name} = ${"$"}${it.name}"
+        if (it.isPublic()) "${it.name} = ${"$"}${it.name}" else "${it.name} = <private>"
     }
     val sanitizedOutput = mapOf(
         "className" to classData.className,

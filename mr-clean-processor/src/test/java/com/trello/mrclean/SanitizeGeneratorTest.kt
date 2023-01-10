@@ -146,4 +146,26 @@ class SanitizeGeneratorTest {
         .writeTo(output)
     return output.toString()
   }
+
+  @Test
+  fun generateDebugSanitizedToStringIgnoresPrivateProperties() {
+    val propertyData = listOf(
+      PropertyData(flagsOf(Flag.IS_PRIVATE), "bar", INT),
+      PropertyData(flagsOf(Flag.IS_PUBLIC), "meow", INT)
+    )
+    val classData = ClassData(TwoParam::class.java.canonicalName, propertyData)
+    val expectedOuput = """
+       |package com.example
+
+       |import com.trello.mrclean.SanitizeGeneratorTest
+       |import kotlin.String
+       |import kotlin.Suppress
+
+       |@Suppress("NOTHING_TO_INLINE")
+       |internal inline fun SanitizeGeneratorTest.TwoParam.sanitizedToString(): String =
+       |    ${"\""}${"\""}${"\""}TwoParam(bar = <private>, meow = ${"$"}meow)${"\""}${"\""}${"\""}
+       |
+       """.trimMargin()
+    assertEquals(expectedOuput, buildFile(SanitizeGenerator.generateSanitizedToString(classData, true)))
+  }
 }
