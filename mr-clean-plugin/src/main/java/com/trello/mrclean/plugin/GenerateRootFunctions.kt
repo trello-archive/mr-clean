@@ -1,22 +1,24 @@
 package com.trello.mrclean.plugin
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.provider.Property
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
-open class GenerateRootFunctions : DefaultTask() {
+abstract class GenerateRootFunctions : DefaultTask() {
   @get:OutputDirectory
-  var outputDir: File? = null
+  abstract val outputDir: DirectoryProperty
 
   @get:Input
-  var packageName: String? = null
+  abstract val packageName: Property<String>
 
   @Suppress("unused") // Invoked by Gradle.
   @TaskAction
   fun brewJava() {
-    brewJava(outputDir!!, packageName!!)
+    brewJava(outputDir.asFile.get(), packageName.get())
   }
 }
 
