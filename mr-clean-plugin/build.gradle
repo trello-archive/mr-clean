@@ -11,7 +11,8 @@ dependencies {
 
     testImplementation deps.junit
 }
-kotlin.jvmToolchain(11)
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 sourceSets.main.java.srcDir "$buildDir/generated/source/mrclean"
 
@@ -32,5 +33,6 @@ val VERSION = "${project.version}"
     }
 }
 
+tasks.getByName("pluginVersion").dependsOn("javaSourcesJar")
 tasks.getByName('compileKotlin').dependsOn('pluginVersion')
 
