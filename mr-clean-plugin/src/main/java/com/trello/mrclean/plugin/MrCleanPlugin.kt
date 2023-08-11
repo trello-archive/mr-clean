@@ -1,18 +1,16 @@
 package com.trello.mrclean.plugin
 
+import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.*
-import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.manifest.parseManifest
 import com.android.builder.errors.EvalIssueException
 import com.android.builder.errors.IssueReporter
 import com.trello.mrclean.VERSION
-import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.BooleanSupplier
 import kotlin.reflect.KClass
 
@@ -26,29 +24,25 @@ class MrCleanPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         project.plugins.apply("kotlin-kapt")
+        addKaptDeps(project)
+        val baseExtension = project.extensions.getByType(BaseExtension::class.java)
+        val androidComponents = project.extensions.getByType(AndroidComponentsExtension::class.java)
+        androidComponents.onVariants { variant ->
+            val packageName = getPackageNameBase(baseExtension)
+            variant.javaCompilation.annotationProcessor.arguments.put("mrclean.packagename", packageName)
+            variant.javaCompilation.annotationProcessor.arguments.put(
+                "mrclean.debug",
+                (variant.buildType == "debug").toString()
+            )
+            val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
+            val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
+            log.debug("MrClean: task $taskName using directory $outputDir")
+            val task = project.tasks.register(taskName, GenerateRootFunctions::class.java) {
+                it.outputDir.set(outputDir)
+                it.packageName.set(packageName)
 
-        project.plugins.all {
-            when (it) {
-                is LibraryPlugin -> {
-                    addKaptDeps(project)
-                    project.afterEvaluate {
-                        val packageName = getPackageNameBase(project.extensions.getByType(BaseExtension::class.java))
-                        project.extensions[LibraryExtension::class].run {
-                            configureSanitizationGeneration(project, libraryVariants, packageName)
-                        }
-                    }
-                }
-
-                is AppPlugin -> {
-                    addKaptDeps(project)
-                    project.afterEvaluate {
-                        val packageName = getPackageNameBase(project.extensions.getByType(BaseExtension::class.java))
-                        project.extensions[AppExtension::class].run {
-                            configureSanitizationGeneration(project, applicationVariants, packageName)
-                        }
-                    }
-                }
             }
+            variant.sources.assets?.addGeneratedSourceDirectory(task, GenerateRootFunctions::outputDir)
         }
     }
 
@@ -89,37 +83,6 @@ class MrCleanPlugin : Plugin<Project> {
                 throw exception
         }).packageName
 
-
-    private fun configureSanitizationGeneration(
-        project: Project,
-        variants: DomainObjectSet<out BaseVariant>,
-        packageName: String
-    ) {
-        variants.all { variant ->
-            val once = AtomicBoolean()
-
-            // apply APT options for use in MrCleanProcessor
-            variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.packagename"] = packageName
-            variant.javaCompileOptions.annotationProcessorOptions.arguments["mrclean.debug"] =
-                variant.buildType.isDebuggable.toString()
-
-            variant.outputs.all { _ ->
-                if (once.compareAndSet(false, true)) {
-                    val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
-                    val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
-                    val task = project.tasks
-                        .create(taskName, GenerateRootFunctions::class.java) {
-                            it.outputDir = outputDir
-                            it.packageName = packageName
-                            variant.registerJavaGeneratingTask(it, outputDir)
-                            variant.addJavaSourceFoldersToModel(outputDir)
-                        }
-
-                    project.files().builtBy(task)
-                }
-            }
-        }
-    }
 }
 
 private operator fun <T : Any> ExtensionContainer.get(type: KClass<T>): T {

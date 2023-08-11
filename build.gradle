@@ -1,13 +1,13 @@
 buildscript {
     ext.versions = [
         'incap' : '0.3',
-        'kotlin': '1.7.10'
+        'kotlin': '1.8.10'
     ]
 
     ext.deps = [
         android: [
             'runtime': 'com.google.android:android:4.1.1.4',
-            'gradlePlugin': "com.android.tools.build:gradle:7.3.1",
+            'gradlePlugin': "com.android.tools.build:gradle:7.4.1",
         ],
         'autoService':'com.google.auto.service:auto-service:1.0.1',
         'kotlin': [
@@ -48,5 +48,5 @@ buildscript {
 
 
 plugins {
-    id "com.github.ben-manes.versions" version "0.42.0"
+    id "com.github.ben-manes.versions" version "0.45.0"
 }
