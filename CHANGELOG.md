@@ -1,3 +1,9 @@
+# 1.2.1
+* Updates Kotlin to 1.8.10
+* Updates Android Gradle Plugin to 7.4.1
+* Updates ben-manes versions plugin to 0.45.0
+* Updated to use new Gradle variant API internally
+
 # 1.2.0
 * Updates Kotlin to 1.7.10
 * Updates ben-manes versions plugin to 0.42.0
