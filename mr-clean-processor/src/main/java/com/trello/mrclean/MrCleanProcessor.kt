@@ -19,7 +19,7 @@ package com.trello.mrclean
 import com.google.auto.service.AutoService
 import com.squareup.kotlinpoet.FileSpec
 import com.trello.mrclean.annotations.Sanitize
-import kotlinx.metadata.impl.extensions.MetadataExtensions
+import kotlinx.metadata.internal.extensions.MetadataExtensions
 import kotlinx.metadata.jvm.KotlinClassMetadata
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType

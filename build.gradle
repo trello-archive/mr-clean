@@ -1,15 +1,15 @@
 buildscript {
     ext.versions = [
-        'incap' : '0.3',
-        'kotlin': '1.8.10'
+        'incap' : '1.0.0',
+        'kotlin': '1.9.0'
     ]
 
     ext.deps = [
         android: [
             'runtime': 'com.google.android:android:4.1.1.4',
-            'gradlePlugin': "com.android.tools.build:gradle:7.4.1",
+            'gradlePlugin': "com.android.tools.build:gradle:8.1.0",
         ],
-        'autoService':'com.google.auto.service:auto-service:1.0.1',
+        'autoService':'com.google.auto.service:auto-service:1.1.1',
         'kotlin': [
             'reflect': "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
             'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
@@ -20,7 +20,7 @@ buildscript {
         ],
         'junit': 'junit:junit:4.13.2',
         'kotlinx': [
-            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
+            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.7.0"
         ],
         'kotlinpoet': 'com.squareup:kotlinpoet:1.12.0'
     ]
