@@ -1,3 +1,10 @@
+# 1.2.2
+* Updates Kotlin to 1.9.0
+* Updates Gradle to 8.1.0
+* Updates ben-manes versions plugin to 0.45.0
+* Updates google auto service to 1.1.1
+* Updates incap to 1.0.0
+
 # 1.2.1
 * Updates Kotlin to 1.8.10
 * Updates Android Gradle Plugin to 7.4.1
