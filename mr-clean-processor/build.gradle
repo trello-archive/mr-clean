@@ -1,21 +1,23 @@
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.vanniktech.maven.publish'
+plugins {
+    alias libs.plugins.kotlin.jvm
+    alias libs.plugins.kotlin.kapt
+    alias libs.plugins.vanniktech.publish
+}
 dependencies {
     compileOnly project(':mr-clean-annotations')
-    compileOnly deps.autoService
-    kapt deps.autoService
+    compileOnly libs.autoService
+    kapt libs.autoService
 
-    api deps.incap.runtime
-    compileOnly deps.incap.processor
+    api libs.incap.runtime
+    compileOnly libs.incap.processor
 
-    implementation deps.kotlin.stdlib
+    implementation libs.kotlin.stdlib
 
-    implementation deps.kotlinx.metadataJvm
+    implementation libs.kotlinx.metadataJvm
 
-    implementation deps.kotlinpoet
+    implementation libs.kotlinpoet
 
-    testImplementation deps.junit
+    testImplementation libs.junit
 }
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17

@@ -1,11 +1,13 @@
-apply plugin: 'kotlin'
-apply plugin: 'com.vanniktech.maven.publish'
+plugins{
+    alias libs.plugins.kotlin.jvm
+    alias libs.plugins.vanniktech.publish
+}
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation deps.kotlin.stdlib
+    implementation libs.kotlin.stdlib
 }
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
