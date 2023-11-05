@@ -5,11 +5,13 @@ plugins {
 }
 dependencies {
     compileOnly gradleApi()
-    implementation project(':mr-clean-annotations')
+    implementation project(':mr-clean-runtime')
 
     implementation libs.android.gradlePlugin
+    implementation libs.android.gradlePlugin
+    implementation libs.plugin.ksp
     implementation libs.kotlin.stdlib
-    implementation libs.kotlinpoet
+    implementation libs.kotlinPoet.core
 
     testImplementation libs.junit
 }
@@ -45,7 +47,5 @@ val VERSION = "${project.version}"
 }
 afterEvaluate {
     tasks.named('compileKotlin') { dependsOn('pluginVersion') }
-//    tasks.named('javaSourcesJar') { dependsOn('pluginVersion') }
     tasks.named('sourcesJar') { dependsOn('pluginVersion') }
 }
-
