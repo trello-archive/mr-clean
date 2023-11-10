@@ -1,12 +1,5 @@
 buildscript {
     allprojects {
-        repositories {
-            google()
-            mavenCentral()
-            mavenLocal()
-            jcenter()
-        }
-
         group = GROUP
         version = VERSION_NAME
     }
