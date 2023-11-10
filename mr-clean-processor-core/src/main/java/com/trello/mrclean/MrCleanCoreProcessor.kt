@@ -3,7 +3,11 @@ package com.trello.mrclean
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.symbol.*
+import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSAnnotation
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSNode
+import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -27,8 +31,10 @@ class MrCleanCoreProcessor(
         }
         val annotationName = Sanitize::class.qualifiedName!!
         val unfilteredSymbols = resolver.getSymbolsWithAnnotation(annotationName)
-        val symbolsNotProcessed = unfilteredSymbols.filterNot { it.validate(symbolPredicate) }.toList()
-        val symbols = unfilteredSymbols.filterIsInstance<KSClassDeclaration>().filter { it.validate(symbolPredicate) }
+        val symbolsNotProcessed =
+            unfilteredSymbols.filterNot { it.validate(symbolPredicate) }.toList()
+        val symbols = unfilteredSymbols.filterIsInstance<KSClassDeclaration>()
+            .filter { it.validate(symbolPredicate) }
 
         if (!symbols.iterator().hasNext()) {
             logger.info("Mr. Clean found no symbols to process, exiting")
@@ -113,8 +119,7 @@ class MrCleanCoreProcessor(
                 -> {
                     true
                 }
-                // only care about types that belong to parameters
-                is KSTypeReference -> data is KSPropertyDeclaration
+
                 else -> {
                     false
                 }

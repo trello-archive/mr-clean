@@ -1,6 +1,10 @@
 package com.trello.mrclean
 
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 
 internal object SanitizeGenerator {
     fun generateSanitizedToString(
@@ -12,10 +16,8 @@ internal object SanitizeGenerator {
         val debugString = properties.joinToString {
             if (it.isPublic) "${it.name} = ${"$"}${it.name}" else "${it.name} = <private>"
         }
-        println("debug string is $debugString")
         val sanitizedOutput = mapOf(
             "className" to simpleClassName,
-//            "hexString" to Int::class.java.asTypeName(),
         )
         val suppressAnnotation = AnnotationSpec.builder(Suppress::class)
             .addMember("%S", "NOTHING_TO_INLINE")
@@ -39,7 +41,6 @@ internal object SanitizeGenerator {
                 }
             }
             .build()
-        println(build.toString())
         return build
     }
 }
