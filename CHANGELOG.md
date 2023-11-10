@@ -1,3 +1,10 @@
+# 2.0.0
+* Breaking revision - KSP support and support for KAPT has been dropped
+* 1.2.2 should still be used for users using KAPT as only KSP will be supported moving forward
+* mr-clean-annotations has been renamed mr-clean-runtime
+* mr-clean-debug-processor is used to generate the debug implementation of the root function
+* mr-clean-processor will generate the sanitized version of strings
+
 # 1.2.2
 * Updates Kotlin to 1.9.0
 * Updates Gradle to 8.1.0

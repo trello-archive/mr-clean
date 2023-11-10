@@ -116,6 +116,55 @@ buildscript {
     google()
    }
   dependencies {
+    classpath 'com.trello.mrclean:mr-clean-plugin:2.0.0'
+  }
+}
+```
+
+and then apply to your modules
+```groovy
+apply plugin: 'com.trello.mrclean'
+
+```
+
+# Don't care for plugins?
+The Mr. Clean plugin adds `mr-clean-debug-processor` to `debug` BuildTypes automatically and `mr-clean-processor` to all others as well as setting the `packageName` defined in your manifest. Finally it generates the root `Any?.sanitizeToString` function for you (so you don't have errors pre compile)
+
+If you'd prefer to manually control this, you can.
+
+```groovy
+ksp {
+    // Anything set here will override *ALL* values across all
+    // Generates root function Any.sanitizeToString
+    arg("mrclean.rootgenerator", "true")
+    // Package name to generate in under generated
+    arg("mrclean.packagename", "true")
+    // Setting this will override d
+    arg("mrclean.debug", "true")
+}
+
+dependencies {
+    implmentation 'com.trello.mrclean:mr-clean-runtime:2.0.0'
+    // Debug by default has KSP arg "mrclean.debug" set to false, "mrclean.rootgenerator" to false
+    kspRelease 'com.trello.mrclean:mr-clean-processor:2.0.0'
+    // Debug by default has KSP arg "mrclean.debug" set to true, "mrclean.rootgenerator" to false
+    kspDebug 'com.trello.mrclean:mr-clean-debug-processor:2.0.0'
+}
+```
+
+
+# Looking for KAPT support?
+Use 1.2.2 as Mr. Clean is pretty stable but we are only supporting KSP moving forward
+
+1.2.2 usage is
+
+```groovy
+buildscript {
+  repositories {
+    mavenCentral()
+    google()
+   }
+  dependencies {
     classpath 'com.trello.mrclean:mr-clean-plugin:1.2.2'
   }
 }
