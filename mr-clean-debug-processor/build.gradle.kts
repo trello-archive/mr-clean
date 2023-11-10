@@ -15,6 +15,9 @@ dependencies {
     implementation(libs.ksp)
 
     testImplementation(libs.junit)
+    testImplementation(libs.truth)
+    testImplementation(libs.zsweers.compileTesting.core)
+    testImplementation(libs.zsweers.compileTesting.ksp)
 }
 
 ksp {

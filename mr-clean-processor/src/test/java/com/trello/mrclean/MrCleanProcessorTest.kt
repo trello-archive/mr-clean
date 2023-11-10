@@ -84,12 +84,10 @@ internal inline fun TwoParam.sanitizedToString(): String = "TwoParam@${'$'}{hash
         val result = compilation.compile()
         assertThat(result.exitCode).isEqualTo(ExitCode.OK)
         val generatedSourcesDir = compilation.kspSourcesDir
-        println(generatedSourcesDir)
 
         val generatedFile =
             File(generatedSourcesDir, "kotlin/com/test/SanitizationForTest.TwoParam.kt")
         assertThat(generatedFile.exists()).isTrue()
-        println(generatedFile.readText())
         assertThat(
             generatedFile.readText().trimIndent(),
         ).isEqualTo(
@@ -104,7 +102,6 @@ internal inline fun TwoParam.sanitizedToString(): String =
     ""${'"'}TwoParam(bar = <private>, meow = ${'$'}meow)""${'"'}   
             """.trimIndent().trim(),
         )
-        println(result)
     }
 
     @Test
@@ -135,7 +132,6 @@ internal inline fun TwoParam.sanitizedToString(): String =
         val result = compilation.compile()
         assertThat(result.exitCode).isEqualTo(ExitCode.OK)
         val generatedSourcesDir = compilation.kspSourcesDir
-        println(generatedSourcesDir)
 
         val generatedRootFile =
             File(generatedSourcesDir, "kotlin/com/test/RootSanitizeFunction.kt")
@@ -151,6 +147,104 @@ import kotlin.String
 
 internal fun Any.sanitizedToString(): String =
     error("No function generated! Make sure to annotate with @Sanitize")
+            """.trimIndent().trim(),
+        )
+    }
+
+    @Test
+    fun `test generic support`() {
+        val kotlinSource = SourceFile.kotlin(
+            "KClass.kt",
+            """
+            package com.test
+            import com.trello.mrclean.annotations.Sanitize
+
+            @Sanitize
+            data class TwoParam<T, F, Y : List<F>, in V, out R, E : T>(val bar: T, val meow: Int)
+    """,
+        )
+        val option = mapOf(
+            "mrclean.packagename" to "com.test",
+            "mrclean.debug" to "true",
+            "mrclean.rootgenerator" to "true",
+        )
+        val compilation = KotlinCompilation().apply {
+            sources = listOf(kotlinSource)
+
+            // pass your own instance of an annotation processor
+            symbolProcessorProviders = listOf(TestMrCleanProcessorProvider(option))
+
+            inheritClassPath = true
+            messageOutputStream = System.out // see diagnostics in real time
+        }
+        val result = compilation.compile()
+        assertThat(result.exitCode).isEqualTo(ExitCode.OK)
+        val generatedSourcesDir = compilation.kspSourcesDir
+
+        val generatedFile =
+            File(generatedSourcesDir, "kotlin/com/test/SanitizationForTest.TwoParam.kt")
+        assertThat(generatedFile.exists()).isTrue()
+
+        assertThat(generatedFile.exists()).isTrue()
+        assertThat(generatedFile.readText().trimIndent()).isEqualTo(
+            """
+package com.test
+
+import kotlin.String
+import kotlin.Suppress
+import kotlin.collections.List
+
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun <T, F, Y : List<F>, V, R, E : T> TwoParam<T, F, Y, V, R, E>.sanitizedToString():
+    String = ""${'"'}TwoParam(bar = ${'$'}bar, meow = ${'$'}meow)""${'"'}
+            """.trimIndent().trim(),
+        )
+    }
+
+    @Test
+    fun `test generic support private`() {
+        val kotlinSource = SourceFile.kotlin(
+            "KClass.kt",
+            """
+            package com.test
+            import com.trello.mrclean.annotations.Sanitize
+
+            @Sanitize
+            data class TwoParam<T, F, Y : List<F>, in V, out R, E : T>(private val bar: T, val meow: Int)
+    """,
+        )
+        val option = mapOf(
+            "mrclean.packagename" to "com.test",
+        )
+        val compilation = KotlinCompilation().apply {
+            sources = listOf(kotlinSource)
+
+            // pass your own instance of an annotation processor
+            symbolProcessorProviders = listOf(TestMrCleanProcessorProvider(option))
+
+            inheritClassPath = true
+            messageOutputStream = System.out // see diagnostics in real time
+        }
+        val result = compilation.compile()
+        assertThat(result.exitCode).isEqualTo(ExitCode.OK)
+        val generatedSourcesDir = compilation.kspSourcesDir
+
+        val generatedFile =
+            File(generatedSourcesDir, "kotlin/com/test/SanitizationForTest.TwoParam.kt")
+        assertThat(generatedFile.exists()).isTrue()
+
+        assertThat(generatedFile.exists()).isTrue()
+        assertThat(generatedFile.readText().trimIndent()).isEqualTo(
+            """
+package com.test
+
+import kotlin.String
+import kotlin.Suppress
+import kotlin.collections.List
+
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun <T, F, Y : List<F>, V, R, E : T> TwoParam<T, F, Y, V, R, E>.sanitizedToString():
+    String = "TwoParam@${'$'}{hashCode().toString(16)}"
             """.trimIndent().trim(),
         )
     }

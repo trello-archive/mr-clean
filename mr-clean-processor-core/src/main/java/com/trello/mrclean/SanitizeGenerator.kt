@@ -5,14 +5,23 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.TypeVariableName
 
 internal object SanitizeGenerator {
     fun generateSanitizedToString(
+        className: ClassName,
         qualifiedClassName: String,
         simpleClassName: String,
         properties: List<MrCleanProperty>,
+        classTypes: List<TypeVariableName>,
         isDebug: Boolean,
     ): FunSpec {
+        val parameteizedClassName = if (classTypes.isEmpty()) {
+            className
+        } else {
+            className.parameterizedBy(classTypes)
+        }
         val debugString = properties.joinToString {
             if (it.isPublic) "${it.name} = ${"$"}${it.name}" else "${it.name} = <private>"
         }
@@ -30,7 +39,8 @@ internal object SanitizeGenerator {
             .build()
         val build = FunSpec.builder("sanitizedToString")
             .addAnnotation(suppressAnnotation)
-            .receiver(ClassName.bestGuess(qualifiedClassName))
+            .receiver(parameteizedClassName)
+            .addTypeVariables(classTypes.map { TypeVariableName(it.name, it.bounds, null) })
             .addModifiers(KModifier.INLINE, KModifier.INTERNAL)
             .returns(String::class)
             .apply {

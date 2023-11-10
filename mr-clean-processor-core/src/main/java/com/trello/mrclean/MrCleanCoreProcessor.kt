@@ -12,6 +12,7 @@ import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.writeTo
 import com.trello.mrclean.annotations.Sanitize
 
@@ -54,7 +55,6 @@ class MrCleanCoreProcessor(
 
         val isDebug = debugFromOpts?.toBoolean() ?: false
         val generateRoot = options[ROOT_GENERATOR_KEY]?.toBoolean() ?: false
-
         var symbolCount = 0
         val classes = mutableListOf<MrCleanClassData>()
         symbols.forEach {
@@ -62,9 +62,11 @@ class MrCleanCoreProcessor(
             it.accept(visitor, Unit)
             classes.add(
                 MrCleanClassData(
+                    className = it.toClassName(),
                     qualifiedName = it.qualifiedName?.asString()!!,
                     simpleName = it.simpleName.asString(),
                     properties = visitor.properties,
+                    classTypes = visitor.typeInfo,
                     enclosingPackage = it.packageName.getShortName()
                         .replaceFirstChar { first -> first.uppercase() },
                     qualifiedPackage = it.packageName.asString(),
@@ -76,9 +78,11 @@ class MrCleanCoreProcessor(
 
         val map = classes.map {
             it to SanitizeGenerator.generateSanitizedToString(
+                it.className,
                 it.qualifiedName,
                 it.simpleName,
                 it.properties,
+                it.classTypes,
                 isDebug,
             )
         }
