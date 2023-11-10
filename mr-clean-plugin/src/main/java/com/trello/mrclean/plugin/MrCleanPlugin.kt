@@ -1,7 +1,7 @@
 package com.trello.mrclean.plugin
 
 import com.android.build.api.variant.AndroidComponentsExtension
-import com.android.build.gradle.*
+import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.manifest.parseManifest
 import com.android.builder.errors.EvalIssueException
 import com.android.builder.errors.IssueReporter
@@ -44,12 +44,12 @@ class MrCleanPlugin : Plugin<Project> {
             kspExtension.arg("mrclean.packagename", packageName)
             val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
             val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
-            log.info("MrClean: task $taskName using directory $outputDir")
+            log.debug("MrClean: task $taskName using directory $outputDir")
             val task = project.tasks.register(taskName, GenerateRootFunctions::class.java) {
                 it.outputDir.set(outputDir)
                 it.packageName.set(packageName)
             }
-            log.info("MrClean: setting ${variant.sources.java} to ${GenerateRootFunctions::outputDir}")
+            log.debug("MrClean: setting ${variant.sources.java} to ${GenerateRootFunctions::outputDir}")
             variant.sources.java?.addGeneratedSourceDirectory(
                 task,
                 GenerateRootFunctions::outputDir,
@@ -60,11 +60,10 @@ class MrCleanPlugin : Plugin<Project> {
     private fun getOrCreateKsp(project: Project, name: String): KspExtension {
         val hasKsp = project.extensions.findByName(name) != null
         return if (hasKsp) {
-            log.info("MrClean: found $name")
+            log.debug("MrClean: found $name")
             project.extensions.getByName(name) as KspExtension
-//            project.extensions.getByType(KspExtension::class.java)
         } else {
-            log.info("MrClean: trying to create $name")
+            log.debug("MrClean: trying to create $name")
             project.extensions.create(name, KspExtension::class.java)
         }
     }
@@ -80,14 +79,14 @@ class MrCleanPlugin : Plugin<Project> {
         } else {
             "com.trello.mrclean:mr-clean-processor"
         }
-        log.info("Mr Clean is adding: ksp$configuration $coordinates:$VERSION")
+        log.debug("Mr Clean is adding: ksp$configuration $coordinates:$VERSION")
         val kspDep = project.configurations.getByName("ksp$configuration").dependencies
         kspDep.add(project.dependencies.create("$coordinates:$VERSION"))
     }
 
     private fun getPackageNameBase(extension: BaseExtension): String {
         return if (extension.namespace != null) {
-            log.info("using namespace ${extension.namespace}")
+            log.debug("using namespace ${extension.namespace}")
             extension.namespace!!
         } else {
             log.debug("couldn't find a namespace")
