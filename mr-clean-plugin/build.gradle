@@ -1,22 +1,35 @@
-apply plugin: 'java-gradle-plugin'
-apply plugin: 'kotlin'
-apply plugin: 'com.vanniktech.maven.publish'
+plugins {
+    alias libs.plugins.kotlin.jvm
+    alias libs.plugins.vanniktech.publish
+    id 'java-gradle-plugin'
+}
 dependencies {
     compileOnly gradleApi()
-    implementation project(':mr-clean-annotations')
+    implementation project(':mr-clean-runtime')
 
-    implementation deps.android.gradlePlugin
-    implementation deps.kotlin.stdlib
-    implementation deps.kotlinpoet
+    implementation libs.android.gradlePlugin
+    implementation libs.android.gradlePlugin
+    implementation libs.plugin.ksp
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinPoet.core
 
-    testImplementation deps.junit
+    testImplementation libs.junit
 }
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 sourceSets.main.java.srcDir "$buildDir/generated/source/mrclean"
 
-task pluginVersion {
+gradlePlugin {
+    plugins {
+        mrclean {
+            id = 'com.trello.mrclean'
+            implementationClass = 'com.trello.mrclean.plugin.MrCleanPlugin'
+        }
+    }
+}
+
+tasks.register('pluginVersion') {
     def outputDir = file("$buildDir/generated/source/mrclean/")
 
     inputs.property 'version', version
@@ -32,7 +45,7 @@ val VERSION = "${project.version}"
 """
     }
 }
-
-tasks.getByName("pluginVersion").dependsOn("javaSourcesJar")
-tasks.getByName('compileKotlin').dependsOn('pluginVersion')
-
+afterEvaluate {
+    tasks.named('compileKotlin') { dependsOn('pluginVersion') }
+    tasks.named('sourcesJar') { dependsOn('pluginVersion') }
+}

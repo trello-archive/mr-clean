@@ -1,46 +1,5 @@
 buildscript {
-    ext.versions = [
-        'incap' : '1.0.0',
-        'kotlin': '1.9.0'
-    ]
-
-    ext.deps = [
-        android: [
-            'runtime': 'com.google.android:android:4.1.1.4',
-            'gradlePlugin': "com.android.tools.build:gradle:8.1.0",
-        ],
-        'autoService':'com.google.auto.service:auto-service:1.1.1',
-        'kotlin': [
-            'reflect': "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}",
-            'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-        ],
-        'incap': [
-            'runtime': "net.ltgt.gradle.incap:incap:${versions.incap}",
-            'processor': "net.ltgt.gradle.incap:incap-processor:${versions.incap}",
-        ],
-        'junit': 'junit:junit:4.13.2',
-        'kotlinx': [
-            'metadataJvm':"org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.7.0"
-        ],
-        'kotlinpoet': 'com.squareup:kotlinpoet:1.12.0'
-    ]
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
-        classpath "com.vanniktech:gradle-maven-publish-plugin:0.18.0"
-    }
-
     allprojects {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-        }
-
         group = GROUP
         version = VERSION_NAME
     }
@@ -48,5 +7,11 @@ buildscript {
 
 
 plugins {
-    id "com.github.ben-manes.versions" version "0.45.0"
+    alias libs.plugins.kotlin.jvm apply false
+    alias libs.plugins.ksp apply false
+    alias libs.plugins.vanniktech.publish apply false
+    alias libs.plugins.versions
+    alias(libs.plugins.com.android.application) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.android) apply false
 }
+

@@ -1,0 +1,43 @@
+[versions]
+android-runtime = "4.1.1.4"
+activity-compose = "1.8.0"
+autoservice = "1.1.1"
+autoserviceKsp = "1.1.0"
+kotlin = "1.9.10"
+ksp = "1.9.10-1.0.13"
+versionsPlugin = "0.49.0"
+kotlinPoet = "1.14.2"
+agp = "8.1.2"
+org-jetbrains-kotlin-android = "1.9.10"
+junit = "4.13.2"
+compileTesting = "1.5.0"
+truth = "1.1.4"
+kctfork = "0.2.1"
+vanniktech-publish = "0.25.3"
+
+[libraries]
+autoservice-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "autoserviceKsp" }
+autoservice-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoservice" }
+android-runtime = { module = "com.google.android:android", version.ref = "android-runtime" }
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlinPoet-core = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
+kotlinPoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinPoet" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+ksp = { module = "com.google.devtools.ksp:symbol-processing-api ", version.ref = "ksp" }
+plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+truth = { module ="com.google.truth:truth", version.ref = "truth" }
+
+compileTesting-core = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "compileTesting" }
+compileTesting-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "compileTesting" }
+zsweers-compileTesting-core = { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork"}
+zsweers-compileTesting-ksp= { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork"}
+
+
+[plugins]
+versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+vanniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-publish" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+com-android-application = { id = "com.android.application", version.ref = "agp" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }

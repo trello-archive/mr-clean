@@ -1,3 +1,0 @@
-include ':mr-clean-annotations'
-include ':mr-clean-processor'
-include ':mr-clean-plugin'
