@@ -10,6 +10,8 @@ import com.trello.mrclean.VERSION
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
+import org.gradle.api.provider.Provider
+import org.gradle.api.provider.ProviderFactory
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.function.BooleanSupplier
@@ -40,7 +42,8 @@ class MrCleanPlugin : Plugin<Project> {
                 addMrCleanProcessor(project, cleaned, isDebug)
                 buildTypeSet.add(buildType)
             }
-            val packageName = getPackageNameBase(baseExtension)
+            val manifestParsingAllowedProvider = project.provider { true }
+            val packageName = getPackageNameBase(baseExtension, manifestParsingAllowedProvider)
             kspExtension.arg("mrclean.packagename", packageName)
             val taskName = "generate${variant.name.capitalize()}RootSanitizeFunction"
             val outputDir = project.buildDir.resolve("generated/source/mrclean/${variant.name}")
@@ -84,7 +87,10 @@ class MrCleanPlugin : Plugin<Project> {
         kspDep.add(project.dependencies.create("$coordinates:$VERSION"))
     }
 
-    private fun getPackageNameBase(extension: BaseExtension): String {
+    private fun getPackageNameBase(
+        extension: BaseExtension,
+        manifestParsingAllowedProvider: Provider<Boolean>? = null
+    ): String {
         return if (extension.namespace != null) {
             log.debug("using namespace ${extension.namespace}")
             extension.namespace!!
@@ -93,8 +99,7 @@ class MrCleanPlugin : Plugin<Project> {
             extension.sourceSets
                 .map { it.manifest.srcFile }
                 .filter { it.exists() }
-                .map { getPackageFromManifest(it) }
-                .filterNotNull()
+                .mapNotNull { getPackageFromManifest(it, manifestParsingAllowedProvider) }
                 .forEach {
                     log.debug("using package $it")
                     return it
@@ -104,11 +109,15 @@ class MrCleanPlugin : Plugin<Project> {
         }
     }
 
-    private fun getPackageFromManifest(it: File) = parseManifest(
-        it,
-        true,
-        BooleanSupplier { true },
-        object : IssueReporter() {
+    private fun getPackageFromManifest(
+        it: File,
+        manifestParsingAllowedProvider: Provider<Boolean>? = null
+    ) = parseManifest(
+        manifestFileContent = it.readText(),
+        manifestFilePath = it.path,
+        manifestFileRequired = true,
+        manifestParsingAllowedProvider = manifestParsingAllowedProvider,
+        issueReporter = object : IssueReporter() {
             override fun hasIssue(type: Type) = false
             override fun reportIssue(
                 type: Type,
