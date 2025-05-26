@@ -1,8 +1,8 @@
 [versions]
 autoservice = "1.1.1"
 autoserviceKsp = "1.2.0"
-kotlin = "2.1.21"
-ksp = "2.1.21-2.0.1"
+kotlin = "2.1.20"
+ksp = "2.1.20-1.0.32"
 versionsPlugin = "0.49.0"
 kotlinPoet = "2.2.0"
 agp = "8.10.0"
