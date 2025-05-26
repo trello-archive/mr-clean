@@ -1,13 +1,13 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.vanniktech.publish)
-    id("java-gradle-plugin")
+    `kotlin-dsl`
 }
 dependencies {
     compileOnly(gradleApi())
+    compileOnly(gradleKotlinDsl())
     implementation(project(":mr-clean-runtime"))
 
-    implementation(libs.android.gradlePlugin)
     implementation(libs.android.gradlePlugin)
     implementation(libs.plugin.ksp)
     implementation(libs.kotlin.stdlib)
@@ -15,13 +15,9 @@ dependencies {
 
     testImplementation(libs.junit)
 }
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
 
 sourceSets.main {
-    java {
+    kotlin {
         srcDir(layout.buildDirectory.dir("generated/source/mrclean"))
     }
 }
@@ -31,12 +27,14 @@ gradlePlugin {
         create("mrclean") {
             id = "com.trello.mrclean"
             implementationClass = "com.trello.mrclean.plugin.MrCleanPlugin"
+            displayName = "Mr. Clean Plugin"
+            description = "Sanitizes classes to avoid leaking sensitive data when using toString()"
         }
     }
 }
 
 tasks.register("pluginVersion") {
-    val outputDir = file("$buildDir/generated/source/mrclean/")
+    val outputDir = layout.buildDirectory.dir("generated/source/mrclean").get().asFile
 
     inputs.property("version", version)
     outputs.dir(outputDir)

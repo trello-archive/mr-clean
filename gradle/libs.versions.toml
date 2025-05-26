@@ -7,7 +7,6 @@ versionsPlugin = "0.49.0"
 kotlinPoet = "2.2.0"
 agp = "8.10.0"
 junit = "4.13.2"
-compileTesting = "1.6.0"
 truth = "1.4.4"
 kctfork = "0.7.1"
 vanniktech-publish = "0.25.3"
@@ -24,8 +23,6 @@ plugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 truth = { module ="com.google.truth:truth", version.ref = "truth" }
 
-compileTesting-core = { module = "com.github.tschuchortdev:kotlin-compile-testing", version.ref = "compileTesting" }
-compileTesting-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version.ref = "compileTesting" }
 zsweers-compileTesting-core = { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork"}
 zsweers-compileTesting-ksp= { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork"}
 
