@@ -44,9 +44,6 @@ class MrCleanPlugin : Plugin<Project> {
 
         addProcessors(
             androidComponents,
-            baseExtension,
-            manifestParsingAllowedProvider,
-            kspExtension,
             project
         )
 
@@ -54,22 +51,18 @@ class MrCleanPlugin : Plugin<Project> {
             androidComponents,
             baseExtension,
             manifestParsingAllowedProvider,
+            kspExtension,
             project
         )
     }
 
     private fun addProcessors(
         androidComponents: AndroidComponentsExtension<*, *, *>,
-        baseExtension: BaseExtension,
-        manifestParsingAllowedProvider: Provider<Boolean>,
-        kspExtension: KspExtension,
         project: Project
     ) {
         // Must use beforeVariants, KSP processors are collected before onVariants is called
         androidComponents.beforeVariants { beforeVariant ->
             val buildTypeSet = mutableSetOf<String>()
-            val packageName = getPackageNameBase(baseExtension, manifestParsingAllowedProvider)
-            kspExtension.arg("mrclean.packagename", packageName)
 
             val buildType = beforeVariant.buildType
             if (buildType != null && !buildTypeSet.contains(buildType)) {
@@ -83,11 +76,13 @@ class MrCleanPlugin : Plugin<Project> {
         androidComponents: AndroidComponentsExtension<*, *, *>,
         baseExtension: BaseExtension,
         manifestParsingAllowedProvider: Provider<Boolean>,
+        kspExtension: KspExtension,
         project: Project
     ) {
         // Must run in onVariants after KSP processors are applied
         androidComponents.onVariants { variant ->
             val packageName = getPackageNameBase(baseExtension, manifestParsingAllowedProvider)
+            kspExtension.arg("mrclean.packagename", packageName)
             val cleanedVariant = variant.name.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase() else it.toString()
             }
@@ -141,7 +136,27 @@ class MrCleanPlugin : Plugin<Project> {
         }
 
         project.pluginManager.withPlugin("com.android.application") {
-            log.debug("Mr Clean is adding: ksp$configuration $coordinates:$VERSION")
+            addProcessorToProjects(configuration, coordinates, project)
+        }
+
+        project.pluginManager.withPlugin("com.android.library") {
+            addProcessorToProjects(configuration, coordinates, project)
+        }
+    }
+
+    private fun addProcessorToProjects(
+        configuration: String,
+        coordinates: String,
+        project: Project
+    ) {
+        log.debug("Mr Clean is adding: ksp$configuration $coordinates:$VERSION")
+        if (project == project.rootProject) {
+            project.subprojects {
+                dependencies {
+                    add("ksp$configuration", "$coordinates:$VERSION")
+                }
+            }
+        } else {
             project.dependencies {
                 add("ksp$configuration", "$coordinates:$VERSION")
             }
