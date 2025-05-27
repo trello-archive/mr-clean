@@ -6,12 +6,15 @@ import com.tschuchort.compiletesting.KotlinCompilation.ExitCode
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import com.tschuchort.compiletesting.symbolProcessorProviders
+import com.tschuchort.compiletesting.useKsp2
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.Test
 import java.io.File
 
 @OptIn(ExperimentalCompilerApi::class)
 class MrCleanProcessorTest {
+    val useKSP2 = System.getProperty("kct.test.useKsp2", "false").toBoolean()
+
     @Test
     fun `default sanitizes string`() {
         val kotlinSource = SourceFile.kotlin(
@@ -28,8 +31,15 @@ class MrCleanProcessorTest {
         val compilation = KotlinCompilation().apply {
             sources = listOf(kotlinSource)
 
+            if (useKSP2) {
+                useKsp2()
+            } else {
+                // Fall back to K1
+                languageVersion = "1.9"
+            }
+
             // pass your own instance of an annotation processor
-            symbolProcessorProviders = listOf(TestMrCleanProcessorProvider(option))
+            symbolProcessorProviders = mutableListOf(TestMrCleanProcessorProvider(option))
 
             inheritClassPath = true
             messageOutputStream = System.out // see diagnostics in real time
@@ -75,8 +85,15 @@ internal inline fun TwoParam.sanitizedToString(): String = "TwoParam@${'$'}{hash
         val compilation = KotlinCompilation().apply {
             sources = listOf(kotlinSource)
 
+            if (useKSP2) {
+                useKsp2()
+            } else {
+                // Fall back to K1
+                languageVersion = "1.9"
+            }
+
             // pass your own instance of an annotation processor
-            symbolProcessorProviders = listOf(TestMrCleanProcessorProvider(option))
+            symbolProcessorProviders = mutableListOf(TestMrCleanProcessorProvider(option))
 
             inheritClassPath = true
             messageOutputStream = System.out // see diagnostics in real time
@@ -98,8 +115,7 @@ import kotlin.String
 import kotlin.Suppress
 
 @Suppress("NOTHING_TO_INLINE")
-internal inline fun TwoParam.sanitizedToString(): String =
-    ""${'"'}TwoParam(bar = <private>, meow = ${'$'}meow)""${'"'}   
+internal inline fun TwoParam.sanitizedToString(): String = ""${'"'}TwoParam(bar = <private>, meow = ${'$'}meow)""${'"'}   
             """.trimIndent().trim(),
         )
     }
@@ -123,8 +139,15 @@ internal inline fun TwoParam.sanitizedToString(): String =
         val compilation = KotlinCompilation().apply {
             sources = listOf(kotlinSource)
 
+            if (useKSP2) {
+                useKsp2()
+            } else {
+                // Fall back to K1
+                languageVersion = "1.9"
+            }
+
             // pass your own instance of an annotation processor
-            symbolProcessorProviders = listOf(TestMrCleanProcessorProvider(option))
+            symbolProcessorProviders = mutableListOf(TestMrCleanProcessorProvider(option))
 
             inheritClassPath = true
             messageOutputStream = System.out // see diagnostics in real time
@@ -145,8 +168,7 @@ package com.test
 import kotlin.Any
 import kotlin.String
 
-internal fun Any.sanitizedToString(): String =
-    error("No function generated! Make sure to annotate with @Sanitize")
+internal fun Any.sanitizedToString(): String = error("No function generated! Make sure to annotate with @Sanitize")
             """.trimIndent().trim(),
         )
     }
@@ -171,8 +193,15 @@ internal fun Any.sanitizedToString(): String =
         val compilation = KotlinCompilation().apply {
             sources = listOf(kotlinSource)
 
+            if (useKSP2) {
+                useKsp2()
+            } else {
+                // Fall back to K1
+                languageVersion = "1.9"
+            }
+
             // pass your own instance of an annotation processor
-            symbolProcessorProviders = listOf(TestMrCleanProcessorProvider(option))
+            symbolProcessorProviders = mutableListOf(TestMrCleanProcessorProvider(option))
 
             inheritClassPath = true
             messageOutputStream = System.out // see diagnostics in real time
@@ -195,8 +224,7 @@ import kotlin.Suppress
 import kotlin.collections.List
 
 @Suppress("NOTHING_TO_INLINE")
-internal inline fun <T, F, Y : List<F>, V, R, E : T> TwoParam<T, F, Y, V, R, E>.sanitizedToString():
-    String = ""${'"'}TwoParam(bar = ${'$'}bar, meow = ${'$'}meow)""${'"'}
+internal inline fun <T, F, Y : List<F>, V, R, E : T> TwoParam<T, F, Y, V, R, E>.sanitizedToString(): String = ""${'"'}TwoParam(bar = ${'$'}bar, meow = ${'$'}meow)""${'"'}
             """.trimIndent().trim(),
         )
     }
@@ -219,8 +247,15 @@ internal inline fun <T, F, Y : List<F>, V, R, E : T> TwoParam<T, F, Y, V, R, E>.
         val compilation = KotlinCompilation().apply {
             sources = listOf(kotlinSource)
 
+            if (useKSP2) {
+                useKsp2()
+            } else {
+                // Fall back to K1
+                languageVersion = "1.9"
+            }
+
             // pass your own instance of an annotation processor
-            symbolProcessorProviders = listOf(TestMrCleanProcessorProvider(option))
+            symbolProcessorProviders = mutableListOf(TestMrCleanProcessorProvider(option))
 
             inheritClassPath = true
             messageOutputStream = System.out // see diagnostics in real time
@@ -243,8 +278,7 @@ import kotlin.Suppress
 import kotlin.collections.List
 
 @Suppress("NOTHING_TO_INLINE")
-internal inline fun <T, F, Y : List<F>, V, R, E : T> TwoParam<T, F, Y, V, R, E>.sanitizedToString():
-    String = "TwoParam@${'$'}{hashCode().toString(16)}"
+internal inline fun <T, F, Y : List<F>, V, R, E : T> TwoParam<T, F, Y, V, R, E>.sanitizedToString(): String = "TwoParam@${'$'}{hashCode().toString(16)}"
             """.trimIndent().trim(),
         )
     }

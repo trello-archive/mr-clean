@@ -1,8 +1,7 @@
 package com.trello.mrclean.plugin
 
 import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 
 class RootFunctionGeneratorTest {
 
@@ -19,8 +18,7 @@ class RootFunctionGeneratorTest {
       |import kotlin.Any
       |import kotlin.String
 
-      |internal fun Any.sanitizedToString(): String =
-      |    error("No function generated! Make sure to annotate with @Sanitize")
+      |internal fun Any.sanitizedToString(): String = error("No function generated! Make sure to annotate with @Sanitize")
       |
     """.trimMargin()
     assertEquals(expectedOutput, output.toString())
