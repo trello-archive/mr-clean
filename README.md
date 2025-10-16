@@ -50,8 +50,14 @@
                                                                                 
                                                                                 
                                                     
-Mr. Clean
+Mr. Clean (Archived)
 ===
+### This project is no longer maintained and is now archived. 
+
+We recommend using the [redacted-compiler-plugin](https://github.com/ZacSweers/redacted-compiler-plugin) 
+or forking the repository if you would like to continue using Mr. Clean.
+ 
+---
 
 Let Mr. Clean keep your logs clean of sensitive data.
 
